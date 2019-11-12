@@ -1,26 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import locations from "./locations";
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+type MyState = {
+  announcements: Array<{}>;
+  msg: string;
+  now: Date;
+};
+
+export default class App extends React.Component<{}, MyState> {
+  state: MyState = {
+    announcements: [],
+    msg: "",
+    now: new Date()
+  };
+
+  render() {
+    return (
+      <div>
+        {this.button("Sub")}
+        {this.button("Sod")}
+        {this.button("Sci")}
+        {this.button("Sst")}
+        {this.button("Åbe")}
+        {this.button("Äs")}
+        {this.button("Sta")}
+        {this.button("Hu")}
+        {this.button("Flb")}
+        {this.button("Tul")}
+        {this.button("Tu")}
+        <div>{this.state.msg}</div>
+      </div>
+    );
+  }
+
+  button(location: string) {
+    return (
+      <button
+        onClick={async () => {
+          const response = await fetch(
+            `/.netlify/functions/node-fetch?location=${location}`
+          );
+          const json = await response.json();
+          if (json.msg) this.setState({ msg: json.msg });
+          if (json.TrainAnnouncement)
+            this.setState({ announcements: json.TrainAnnouncement, msg: "" });
+        }}
+      >
+        {locations(location)}
+      </button>
+    );
+  }
 }
-
-export default App;
