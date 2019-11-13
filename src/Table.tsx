@@ -5,7 +5,7 @@ import Short from "./Short"
 import Destination from "./Destination"
 import AdvertisedTime from "./AdvertisedTime"
 import Time from "./Time"
-// import Countdown from "./Countdown"
+import Countdown from "./Countdown"
 import Deviation from "./Deviation"
 import locations from "./locations";
 import TrainAnnouncement from "./TrainAnnouncement";
@@ -31,6 +31,7 @@ export default function Table(props: {
               <Destination announcement={announcement} />
               <AdvertisedTime announcement={announcement} />
               <Time announcement={announcement} />
+              <Countdown announcement={announcement} now={props.now} />
               <Deviation announcement={announcement} />
             </tr>
           );

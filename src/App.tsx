@@ -4,6 +4,8 @@ import locations from "./locations";
 import Table from "./Table";
 import TrainAnnouncement from "./TrainAnnouncement";
 
+let intervalId: NodeJS.Timeout;
+
 type MyState = {
   announcements: Array<TrainAnnouncement>;
   msg: string;
@@ -16,6 +18,16 @@ export default class App extends React.Component<{}, MyState> {
     msg: "",
     now: new Date()
   };
+
+  componentDidMount() {
+    console.log('componentDidMount');
+    intervalId = setInterval(() => this.setState({ now: new Date() }), 990);
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount');
+    clearInterval(intervalId);
+  }
 
   render() {
     const { msg, announcements, now } = this.state;

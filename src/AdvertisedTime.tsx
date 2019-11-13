@@ -13,8 +13,7 @@ function t(announcement: TrainAnnouncement) {
 }
 
 function f(advertised: string) {
-  console.log(typeof advertised);
-  const m = /\d\d\d\d-\d\d-\d\dT(\d\d:\d\d)(:\d\d)/.exec(advertised);
+  const m = /\d\d\d\d-\d\d-\d\dT(\d\d:\d\d)(:\d\d)/.exec(advertised.toString());
   if (!m) return advertised;
   if (m[2] === ":00") return m[1];
   return m[1] + m[2];
