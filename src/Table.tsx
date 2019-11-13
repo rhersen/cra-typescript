@@ -1,6 +1,6 @@
 import React from "react";
 import locations from "./locations";
-import { TrainAnnouncement } from "./App";
+import TrainAnnouncement from "./TrainAnnouncement";
 
 type TableProps = {
   announcements: Array<TrainAnnouncement>;
