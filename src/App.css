@@ -29,6 +29,10 @@ td {
   padding: 0 2px;
 }
 
+td.destination span.from {
+  font-weight: lighter;
+}
+
 @media (max-width: 520px) {
   td.id {
     display: none;
@@ -60,7 +64,8 @@ td {
 }
 
 @media (max-width: 370px) {
-  td.delay, td.track {
+  td.delay,
+  td.track {
     display: none;
   }
 }
