@@ -70,7 +70,7 @@ td.destination span.from {
   }
 }
 
-td.countdown {
+td.countdown, td.time, td.advertised {
   text-align: right;
 }
 
