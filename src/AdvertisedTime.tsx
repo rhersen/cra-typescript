@@ -15,5 +15,5 @@ function time(announcement: TrainAnnouncement) {
 
 function hmm(advertised: string) {
   const parsed = parseISO(advertised);
-  return format(parsed, parsed.getSeconds() ? "h:mm:ss" : "h:mm");
+  return format(parsed, parsed.getSeconds() ? "H:mm:ss" : "H:mm");
 }
