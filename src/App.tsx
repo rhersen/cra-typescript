@@ -45,7 +45,22 @@ export default class App extends React.Component<{}, MyState> {
         {this.button("Tul")}
         {this.button("Tu")}
         <div>{msg}</div>
-        <Table announcements={announcements} now={now} />
+        <Table
+          announcements={announcements}
+          now={now}
+          fetchTrain={async (id: string) => {
+            const response = await fetch(
+              `/.netlify/functions/announcements?train=${id}`
+            );
+            const json = await response.json();
+            if (json.msg) this.setState({ msg: json.msg });
+            if (json.TrainAnnouncement)
+              this.setState({
+                announcements: json.TrainAnnouncement,
+                msg: ""
+              });
+          }}
+        />
       </div>
     );
   }
@@ -60,7 +75,10 @@ export default class App extends React.Component<{}, MyState> {
           const json = await response.json();
           if (json.msg) this.setState({ msg: json.msg });
           if (json.TrainAnnouncement)
-            this.setState({ announcements: json.TrainAnnouncement, msg: "" });
+            this.setState({
+              announcements: json.TrainAnnouncement,
+              msg: ""
+            });
         }}
       >
         {locations(location)}

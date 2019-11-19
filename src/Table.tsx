@@ -13,6 +13,7 @@ import TrainAnnouncement from "./TrainAnnouncement";
 export default function Table(props: {
   announcements: Array<TrainAnnouncement>;
   now: Date;
+  fetchTrain: (id: string) => void;
 }) {
   return (
     <table>
@@ -24,7 +25,11 @@ export default function Table(props: {
         {props.announcements.map(announcement => {
           const id = announcement.AdvertisedTrainIdent;
           return (
-            <tr key={id} className={direction(id)}>
+            <tr
+              key={id}
+              className={direction(id)}
+              onClick={() => props.fetchTrain(id)}
+            >
               <TrainId announcement={announcement} />
               <Track announcement={announcement} />
               <Short announcement={announcement} />
