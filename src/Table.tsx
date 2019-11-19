@@ -1,12 +1,12 @@
 import React from "react";
 import TrainId from "./TrainId";
-import Track from "./Track"
-import Short from "./Short"
-import Destination from "./Destination"
-import AdvertisedTime from "./AdvertisedTime"
-import Time from "./Time"
-import Countdown from "./Countdown"
-import Deviation from "./Deviation"
+import Track from "./Track";
+import Short from "./Short";
+import Destination from "./Destination";
+import AdvertisedTime from "./AdvertisedTime";
+import Time from "./Time";
+import Countdown from "./Countdown";
+import Deviation from "./Deviation";
 import locations from "./locations";
 import TrainAnnouncement from "./TrainAnnouncement";
 
@@ -18,7 +18,7 @@ export default function Table(props: {
     <table>
       <caption>
         {props.announcements.length > 0 &&
-          locations((props.announcements)[0].LocationSignature)}
+          locations(props.announcements[0].LocationSignature)}
       </caption>
       <tbody>
         {props.announcements.map(announcement => {

@@ -1,4 +1,4 @@
-const fetch = require("node-fetch")
+const fetch = require("node-fetch");
 exports.handler = async function({ queryStringParameters }) {
   try {
     const response = await fetch(
@@ -11,29 +11,29 @@ exports.handler = async function({ queryStringParameters }) {
           Accept: "application/json"
         }
       }
-    )
+    );
     if (!response.ok)
-    // NOT res.status >= 200 && res.status < 300
+      // NOT res.status >= 200 && res.status < 300
       return {
         statusCode: response.status,
         body: JSON.stringify({ msg: response.statusText })
-      }
+      };
 
-    const data = await response.json()
-    const [body] = data.RESPONSE.RESULT
+    const data = await response.json();
+    const [body] = data.RESPONSE.RESULT;
 
     return {
       statusCode: 200,
       body: JSON.stringify(body)
-    }
+    };
   } catch (err) {
-    console.log(err) // output to netlify function log
+    console.log(err); // output to netlify function log
     return {
       statusCode: 500,
       body: JSON.stringify({ msg: err.message }) // Could be a custom message or object i.e. JSON.stringify(err)
-    }
+    };
   }
-}
+};
 
 function getBody({ location = "Flb" }) {
   return `
@@ -54,5 +54,5 @@ function getBody({ location = "Flb" }) {
          </AND>
       </FILTER>
      </QUERY>
-</REQUEST>`
+</REQUEST>`;
 }
