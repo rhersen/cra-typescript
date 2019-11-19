@@ -2,19 +2,19 @@ import React from "react";
 import "./App.css";
 import locations from "./locations";
 import Table from "./Table";
-import TrainAnnouncements from "./TrainAnnouncements";
+import Response from "./Response";
 
 let intervalId: NodeJS.Timeout;
 
 type MyState = {
-  announcements: TrainAnnouncements;
+  response: Response;
   msg: string;
   now: Date;
 };
 
 export default class App extends React.Component<{}, MyState> {
   state: MyState = {
-    announcements: { announcements: [] },
+    response: { announcements: [] },
     msg: "",
     now: new Date()
   };
@@ -28,7 +28,7 @@ export default class App extends React.Component<{}, MyState> {
   }
 
   render() {
-    const { msg, announcements, now } = this.state;
+    const { msg, response, now } = this.state;
     return (
       <div>
         {this.button("Sub")}
@@ -44,17 +44,17 @@ export default class App extends React.Component<{}, MyState> {
         {this.button("Tu")}
         <div>{msg}</div>
         <Table
-          announcements={announcements}
+          response={response}
           now={now}
           fetchTrain={async (id: string) => {
-            const response = await fetch(
+            const rsp = await fetch(
               `/.netlify/functions/announcements?train=${id}`
             );
-            const json = await response.json();
+            const json = await rsp.json();
             if (json.msg) this.setState({ msg: json.msg });
             if (json.TrainAnnouncement)
               this.setState({
-                announcements: { announcements: json.TrainAnnouncement },
+                response: { announcements: json.TrainAnnouncement },
                 msg: ""
               });
           }}
@@ -74,7 +74,7 @@ export default class App extends React.Component<{}, MyState> {
           if (json.msg) this.setState({ msg: json.msg });
           if (json.TrainAnnouncement)
             this.setState({
-              announcements: { announcements: json.TrainAnnouncement },
+              response: { announcements: json.TrainAnnouncement },
               msg: ""
             });
         }}

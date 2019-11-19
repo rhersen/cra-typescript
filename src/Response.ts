@@ -1,5 +1,5 @@
 import TrainAnnouncement from "./TrainAnnouncement";
 
-export default interface TrainAnnouncements {
+export default interface Response {
   announcements: Array<TrainAnnouncement>
 }
