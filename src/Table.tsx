@@ -8,21 +8,19 @@ import Time from "./Time";
 import Countdown from "./Countdown";
 import Deviation from "./Deviation";
 import locations from "./locations";
-import TrainAnnouncement from "./TrainAnnouncement";
+import TrainAnnouncements from "./TrainAnnouncements";
 
 export default function Table(props: {
-  announcements: Array<TrainAnnouncement>;
+  announcements: TrainAnnouncements;
   now: Date;
   fetchTrain: (id: string) => void;
 }) {
+  const { announcements } = props;
   return (
     <table>
-      <caption>
-        {props.announcements.length > 0 &&
-          locations(props.announcements[0].LocationSignature)}
-      </caption>
+      <caption>{stationName(announcements)}</caption>
       <tbody>
-        {props.announcements.map(announcement => {
+        {(announcements.announcements || []).map(announcement => {
           const id = announcement.AdvertisedTrainIdent;
           return (
             <tr
@@ -43,6 +41,14 @@ export default function Table(props: {
         })}
       </tbody>
     </table>
+  );
+}
+
+function stationName(announcements: TrainAnnouncements) {
+  return (
+      announcements.announcements &&
+      announcements.announcements.length > 0 &&
+      locations(announcements.announcements[0].LocationSignature)
   );
 }
 

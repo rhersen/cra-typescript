@@ -2,19 +2,19 @@ import React from "react";
 import "./App.css";
 import locations from "./locations";
 import Table from "./Table";
-import TrainAnnouncement from "./TrainAnnouncement";
+import TrainAnnouncements from "./TrainAnnouncements";
 
 let intervalId: NodeJS.Timeout;
 
 type MyState = {
-  announcements: Array<TrainAnnouncement>;
+  announcements: TrainAnnouncements;
   msg: string;
   now: Date;
 };
 
 export default class App extends React.Component<{}, MyState> {
   state: MyState = {
-    announcements: [],
+    announcements: { announcements: [] },
     msg: "",
     now: new Date()
   };
@@ -56,7 +56,7 @@ export default class App extends React.Component<{}, MyState> {
             if (json.msg) this.setState({ msg: json.msg });
             if (json.TrainAnnouncement)
               this.setState({
-                announcements: json.TrainAnnouncement,
+                announcements: { announcements: json.TrainAnnouncement },
                 msg: ""
               });
           }}
@@ -76,7 +76,7 @@ export default class App extends React.Component<{}, MyState> {
           if (json.msg) this.setState({ msg: json.msg });
           if (json.TrainAnnouncement)
             this.setState({
-              announcements: json.TrainAnnouncement,
+              announcements: { announcements: json.TrainAnnouncement },
               msg: ""
             });
         }}
