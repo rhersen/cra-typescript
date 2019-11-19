@@ -20,12 +20,10 @@ export default class App extends React.Component<{}, MyState> {
   };
 
   componentDidMount() {
-    console.log("componentDidMount");
     intervalId = setInterval(() => this.setState({ now: new Date() }), 990);
   }
 
   componentWillUnmount() {
-    console.log("componentWillUnmount");
     clearInterval(intervalId);
   }
 
