@@ -10,6 +10,46 @@ import Deviation from "./Deviation";
 import locations from "./locations";
 import Response from "./Response";
 import Location from "./Location";
+import TrainAnnouncement from "./TrainAnnouncement";
+
+function StationRow(props: {
+  id: string;
+  onClick: () => void;
+  announcement: TrainAnnouncement;
+  now: Date;
+}) {
+  return (
+    <tr className={direction(props.id)} onClick={props.onClick}>
+      <TrainId announcement={props.announcement} />
+      <Track announcement={props.announcement} />
+      <Short announcement={props.announcement} />
+      <Destination announcement={props.announcement} />
+      <AdvertisedTime announcement={props.announcement} />
+      <Time announcement={props.announcement} />
+      <Countdown announcement={props.announcement} now={props.now} />
+      <Deviation announcement={props.announcement} />
+    </tr>
+  );
+}
+
+function TrainRow(props: {
+  onClick: () => void;
+  announcement: TrainAnnouncement;
+  now: Date;
+}) {
+  return (
+    <tr onClick={props.onClick}>
+      <TrainId announcement={props.announcement} />
+      <Track announcement={props.announcement} />
+      <Short announcement={props.announcement} />
+      <Location announcement={props.announcement} />
+      <AdvertisedTime announcement={props.announcement} />
+      <Time announcement={props.announcement} />
+      <Countdown announcement={props.announcement} now={props.now} />
+      <Deviation announcement={props.announcement} />
+    </tr>
+  );
+}
 
 export default function Table(props: {
   response: Response;
@@ -22,25 +62,18 @@ export default function Table(props: {
   function renderStation() {
     return (
       <table>
-      <caption>{stationName(props.response)}</caption>
+        <caption>{stationName(props.response)}</caption>
         <tbody>
           {props.response.announcements.map(announcement => {
             const id = announcement.AdvertisedTrainIdent;
             return (
-              <tr
+              <StationRow
                 key={id}
-                className={direction(id)}
+                id={id}
                 onClick={() => props.fetchTrain(id)}
-              >
-                <TrainId announcement={announcement} />
-                <Track announcement={announcement} />
-                <Short announcement={announcement} />
-                <Destination announcement={announcement} />
-                <AdvertisedTime announcement={announcement} />
-                <Time announcement={announcement} />
-                <Countdown announcement={announcement} now={props.now} />
-                <Deviation announcement={announcement} />
-              </tr>
+                announcement={announcement}
+                now={props.now}
+              />
             );
           })}
         </tbody>
@@ -56,22 +89,14 @@ export default function Table(props: {
         </caption>
         <tbody>
           {props.response.announcements.map(announcement => {
-            const id = announcement.AdvertisedTrainIdent;
+            const id = announcement.LocationSignature;
             return (
-              <tr
+              <TrainRow
                 key={id}
-                className={direction(id)}
                 onClick={() => props.fetchTrain(id)}
-              >
-                <TrainId announcement={announcement} />
-                <Track announcement={announcement} />
-                <Short announcement={announcement} />
-                <Location announcement={announcement} />
-                <AdvertisedTime announcement={announcement} />
-                <Time announcement={announcement} />
-                <Countdown announcement={announcement} now={props.now} />
-                <Deviation announcement={announcement} />
-              </tr>
+                announcement={announcement}
+                now={props.now}
+              />
             );
           })}
         </tbody>
