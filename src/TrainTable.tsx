@@ -10,11 +10,11 @@ export default function TrainTable(props: TableProps) {
       </caption>
       <tbody>
         {props.response.announcements.map(announcement => {
-          const id = announcement.LocationSignature;
+          const location = announcement.LocationSignature;
           return (
             <TrainRow
-              key={id}
-              onClick={() => props.fetchTrain(id)}
+              key={location}
+              onClick={() => props.fetchStation(location)}
               announcement={announcement}
               now={props.now}
             />

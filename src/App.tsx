@@ -46,6 +46,18 @@ export default class App extends React.Component<{}, MyState> {
         <Table
           response={response}
           now={now}
+          fetchStation={async (location: string) => {
+            const rsp = await fetch(
+              `/.netlify/functions/announcements?location=${location}`
+            );
+            const json = await rsp.json();
+            if (json.msg) this.setState({ msg: json.msg });
+            if (json.TrainAnnouncement)
+              this.setState({
+                response: { announcements: json.TrainAnnouncement },
+                msg: ""
+              });
+          }}
           fetchTrain={async (id: string) => {
             const rsp = await fetch(
               `/.netlify/functions/announcements?train=${id}`
