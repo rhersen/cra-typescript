@@ -49,6 +49,11 @@ tr.train td.destination {
   td.id {
     display: none;
   }
+
+  tr.station td.destination {
+    color: blue;
+    text-decoration: underline;
+  }
 }
 
 @media (max-width: 580px) {
