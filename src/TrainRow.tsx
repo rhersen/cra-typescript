@@ -15,7 +15,7 @@ export default function TrainRow(props: {
   now: Date;
 }) {
   return (
-    <tr onClick={props.onClick}>
+    <tr className="train" onClick={props.onClick}>
       <TrainId announcement={props.announcement} />
       <Track announcement={props.announcement} />
       <Short announcement={props.announcement} />

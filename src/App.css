@@ -33,6 +33,18 @@ td.destination span.from {
   font-weight: lighter;
 }
 
+td.countdown,
+td.time,
+td.advertised {
+  text-align: right;
+}
+
+tr.station td.id,
+tr.train td.destination {
+  color: blue;
+  text-decoration: underline;
+}
+
 @media (max-width: 520px) {
   td.id {
     display: none;
@@ -68,10 +80,6 @@ td.destination span.from {
   td.track {
     display: none;
   }
-}
-
-td.countdown, td.time, td.advertised {
-  text-align: right;
 }
 
 body {

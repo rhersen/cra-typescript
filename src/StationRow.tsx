@@ -17,7 +17,7 @@ export default function StationRow(props: {
 }) {
   return (
     <tr
-      className={/\d+[24680]$/.test(props.id) ? "northbound" : "southbound"}
+      className={`station ${/\d+[24680]$/.test(props.id) ? "northbound" : "southbound"}`}
       onClick={props.onClick}
     >
       <TrainId announcement={props.announcement} />
