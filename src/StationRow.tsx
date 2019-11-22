@@ -1,4 +1,4 @@
-import TrainAnnouncement from "./TrainAnnouncement";
+import TrainAnnouncement, {directionClass} from "./TrainAnnouncement";
 import TrainId from "./TrainId";
 import Track from "./Track";
 import Short from "./Short";
@@ -9,25 +9,25 @@ import Countdown from "./Countdown";
 import Deviation from "./Deviation";
 import React from "react";
 
-export default function StationRow(props: {
-  id: string;
+export default function StationRow({
+  announcement,
+  onClick,
+  now
+}: {
   onClick: () => void;
   announcement: TrainAnnouncement;
   now: Date;
 }) {
   return (
-    <tr
-      className={`station ${/\d+[24680]$/.test(props.id) ? "northbound" : "southbound"}`}
-      onClick={props.onClick}
-    >
-      <TrainId announcement={props.announcement} />
-      <Track announcement={props.announcement} />
-      <Short announcement={props.announcement} />
-      <Destination announcement={props.announcement} />
-      <AdvertisedTime announcement={props.announcement} />
-      <Time announcement={props.announcement} />
-      <Countdown announcement={props.announcement} now={props.now} />
-      <Deviation announcement={props.announcement} />
+    <tr className={`station ${directionClass(announcement)}`} onClick={onClick}>
+      <TrainId announcement={announcement} />
+      <Track announcement={announcement} />
+      <Short announcement={announcement} />
+      <Destination announcement={announcement} />
+      <AdvertisedTime announcement={announcement} />
+      <Time announcement={announcement} />
+      <Countdown announcement={announcement} now={now} />
+      <Deviation announcement={announcement} />
     </tr>
   );
 }

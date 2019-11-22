@@ -1,4 +1,5 @@
-import { addSeconds, differenceInSeconds, format, parseISO } from "date-fns";
+import {addSeconds, differenceInSeconds, format, parseISO} from "date-fns";
+import locations from "./locations";
 
 export default interface TrainAnnouncement {
   ActivityId: string;
@@ -70,4 +71,17 @@ export function countdown(announcement: TrainAnnouncement, now: Date) {
     return `${format(addSeconds(new Date(0), seconds), "m")}min`;
   if (seconds >= 100) return format(addSeconds(new Date(0), seconds), "m:ss");
   return `${seconds}s`;
+}
+
+export function fromLocation(announcement: TrainAnnouncement) {
+  return announcement.FromLocation &&
+      announcement.FromLocation.map(location =>
+          locations(location.LocationName)
+      ).join();
+}
+
+export function directionClass(announcement: TrainAnnouncement) {
+  return /\d+[24680]$/.test(announcement.AdvertisedTrainIdent)
+      ? "northbound"
+      : "southbound";
 }

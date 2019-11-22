@@ -23,3 +23,7 @@ export function stationName(response: Response) {
     locations(response.announcements[0].LocationSignature)
   );
 }
+
+export function trainIdent(response: Response) {
+  return response.announcements[0].AdvertisedTrainIdent;
+}

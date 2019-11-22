@@ -14,7 +14,6 @@ export default function StationTable(props: TableProps) {
           return (
             <StationRow
               key={id}
-              id={id}
               onClick={() => props.fetchTrain(id)}
               announcement={announcement}
               now={props.now}

@@ -1,21 +1,20 @@
 import React from "react";
-import TrainAnnouncement from "./TrainAnnouncement";
+import TrainAnnouncement, {fromLocation} from "./TrainAnnouncement";
 import locations from "./locations";
 
-export default function Destination(props: {
+export default function Destination({
+  announcement
+}: {
   announcement: TrainAnnouncement;
 }) {
   return (
     <td className="destination">
       <span className="from">
-        {props.announcement.FromLocation &&
-          props.announcement.FromLocation.map(location =>
-            locations(location.LocationName)
-          ).join()}
+        {fromLocation(announcement)}
         –
       </span>
-      {props.announcement.ToLocation &&
-        props.announcement.ToLocation.map(location =>
+      {announcement.ToLocation &&
+        announcement.ToLocation.map(location =>
           locations(location.LocationName)
         ).join()}
     </td>

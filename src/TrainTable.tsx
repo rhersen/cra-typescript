@@ -1,22 +1,22 @@
+import React from "react";
+import { trainIdent } from "./Response";
 import { TableProps } from "./TableProps";
 import TrainRow from "./TrainRow";
-import React from "react";
 
 export default function TrainTable(props: TableProps) {
+  const { response, now, fetchStation } = props;
   return (
     <table>
-      <caption>
-        train {props.response.announcements[0].AdvertisedTrainIdent}
-      </caption>
+      <caption>train {trainIdent(response)}</caption>
       <tbody>
-        {props.response.announcements.map(announcement => {
+        {response.announcements.map(announcement => {
           const location = announcement.LocationSignature;
           return (
             <TrainRow
               key={location}
-              onClick={() => props.fetchStation(location)}
+              onClick={() => fetchStation(location)}
               announcement={announcement}
-              now={props.now}
+              now={now}
             />
           );
         })}
