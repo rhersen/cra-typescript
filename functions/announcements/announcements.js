@@ -21,7 +21,7 @@ exports.handler = async function({ queryStringParameters }) {
 
     const data = await response.json();
     const [body] = data.RESPONSE.RESULT;
-
+    console.log(body.length);
     return {
       statusCode: 200,
       body: JSON.stringify(body)
