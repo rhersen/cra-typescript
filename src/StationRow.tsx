@@ -5,6 +5,7 @@ import Short from "./Short";
 import Destination from "./Destination";
 import AdvertisedTime from "./AdvertisedTime";
 import Time from "./Time";
+import ModifiedTime from "./ModifiedTime";
 import Countdown from "./Countdown";
 import Deviation from "./Deviation";
 import React from "react";
@@ -26,6 +27,7 @@ export default function StationRow({
       <Destination announcement={announcement} />
       <AdvertisedTime announcement={announcement} />
       <Time announcement={announcement} />
+      <ModifiedTime announcement={announcement} />
       <Countdown announcement={announcement} now={now} />
       <Deviation announcement={announcement} />
     </tr>

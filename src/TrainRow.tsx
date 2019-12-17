@@ -4,6 +4,7 @@ import Track from "./Track";
 import Short from "./Short";
 import Location from "./Location";
 import AdvertisedTime from "./AdvertisedTime";
+import ModifiedTime from "./ModifiedTime";
 import Time from "./Time";
 import Countdown from "./Countdown";
 import Deviation from "./Deviation";
@@ -22,6 +23,7 @@ export default function TrainRow(props: {
       <Location announcement={props.announcement} />
       <AdvertisedTime announcement={props.announcement} />
       <Time announcement={props.announcement} />
+      <ModifiedTime announcement={props.announcement} />
       <Countdown announcement={props.announcement} now={props.now} />
       <Deviation announcement={props.announcement} />
     </tr>

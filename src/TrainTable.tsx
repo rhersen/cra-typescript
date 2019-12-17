@@ -7,7 +7,7 @@ export default function TrainTable(props: TableProps) {
   const { response, now, fetchStation } = props;
   return (
     <table>
-      <caption>train {trainIdent(response)}</caption>
+      <caption>tåg {trainIdent(response)}</caption>
       <tbody>
         {response.announcements.map(announcement => {
           const location = announcement.LocationSignature;
