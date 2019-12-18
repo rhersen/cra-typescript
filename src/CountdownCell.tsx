@@ -1,7 +1,7 @@
 import React from "react";
 import TrainAnnouncement, { countdown } from "./TrainAnnouncement";
 
-export default function Countdown(props: {
+export default function CountdownCell(props: {
   announcement: TrainAnnouncement;
   now: Date;
 }) {

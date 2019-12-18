@@ -1,13 +1,13 @@
 import TrainAnnouncement, {directionClass} from "./TrainAnnouncement";
-import TrainId from "./TrainId";
-import Track from "./Track";
-import Short from "./Short";
-import Destination from "./Destination";
-import AdvertisedTime from "./AdvertisedTime";
-import Time from "./Time";
-import ModifiedTime from "./ModifiedTime";
-import Countdown from "./Countdown";
-import Deviation from "./Deviation";
+import TrainIdCell from "./TrainIdCell";
+import TrackCell from "./TrackCell";
+import ShortCell from "./ShortCell";
+import DestinationCell from "./DestinationCell";
+import AdvertisedTimeCell from "./AdvertisedTimeCell";
+import TimeCell from "./TimeCell";
+import ModifiedTimeCell from "./ModifiedTimeCell";
+import CountdownCell from "./CountdownCell";
+import DeviationCell from "./DeviationCell";
 import React from "react";
 
 export default function StationRow({
@@ -21,15 +21,15 @@ export default function StationRow({
 }) {
   return (
     <tr className={`station ${directionClass(announcement)}`} onClick={onClick}>
-      <TrainId announcement={announcement} />
-      <Track announcement={announcement} />
-      <Short announcement={announcement} />
-      <Destination announcement={announcement} />
-      <AdvertisedTime announcement={announcement} />
-      <Time announcement={announcement} />
-      <ModifiedTime announcement={announcement} />
-      <Countdown announcement={announcement} now={now} />
-      <Deviation announcement={announcement} />
+      <TrainIdCell announcement={announcement} />
+      <TrackCell announcement={announcement} />
+      <ShortCell announcement={announcement} />
+      <DestinationCell announcement={announcement} />
+      <AdvertisedTimeCell announcement={announcement} />
+      <TimeCell announcement={announcement} />
+      <ModifiedTimeCell announcement={announcement} />
+      <CountdownCell announcement={announcement} now={now} />
+      <DeviationCell announcement={announcement} />
     </tr>
   );
 }

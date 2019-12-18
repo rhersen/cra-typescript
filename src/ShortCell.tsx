@@ -1,7 +1,7 @@
 import React from "react";
 import TrainAnnouncement from "./TrainAnnouncement";
 
-export default function Short(props: { announcement: TrainAnnouncement }) {
+export default function ShortCell(props: { announcement: TrainAnnouncement }) {
   return <td className="short">{text(props.announcement.Deviation)}</td>;
 }
 

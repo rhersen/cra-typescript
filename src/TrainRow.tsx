@@ -1,13 +1,13 @@
 import TrainAnnouncement from "./TrainAnnouncement";
-import TrainId from "./TrainId";
-import Track from "./Track";
-import Short from "./Short";
-import Location from "./Location";
-import AdvertisedTime from "./AdvertisedTime";
-import ModifiedTime from "./ModifiedTime";
-import Time from "./Time";
-import Countdown from "./Countdown";
-import Deviation from "./Deviation";
+import TrainIdCell from "./TrainIdCell";
+import TrackCell from "./TrackCell";
+import ShortCell from "./ShortCell";
+import LocationCell from "./LocationCell";
+import AdvertisedTimeCell from "./AdvertisedTimeCell";
+import ModifiedTime from "./ModifiedTimeCell";
+import TimeCell from "./TimeCell";
+import CountdownCell from "./CountdownCell";
+import DeviationCell from "./DeviationCell";
 import React from "react";
 
 export default function TrainRow(props: {
@@ -17,15 +17,15 @@ export default function TrainRow(props: {
 }) {
   return (
     <tr className="train" onClick={props.onClick}>
-      <TrainId announcement={props.announcement} />
-      <Track announcement={props.announcement} />
-      <Short announcement={props.announcement} />
-      <Location announcement={props.announcement} />
-      <AdvertisedTime announcement={props.announcement} />
-      <Time announcement={props.announcement} />
+      <TrainIdCell announcement={props.announcement} />
+      <TrackCell announcement={props.announcement} />
+      <ShortCell announcement={props.announcement} />
+      <LocationCell announcement={props.announcement} />
+      <AdvertisedTimeCell announcement={props.announcement} />
+      <TimeCell announcement={props.announcement} />
       <ModifiedTime announcement={props.announcement} />
-      <Countdown announcement={props.announcement} now={props.now} />
-      <Deviation announcement={props.announcement} />
+      <CountdownCell announcement={props.announcement} now={props.now} />
+      <DeviationCell announcement={props.announcement} />
     </tr>
   );
 }

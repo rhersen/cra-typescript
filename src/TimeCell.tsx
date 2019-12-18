@@ -2,7 +2,7 @@ import React from "react";
 import { format, parseISO } from "date-fns";
 import TrainAnnouncement from "./TrainAnnouncement";
 
-export default function Time(props: { announcement: TrainAnnouncement }) {
+export default function TimeCell(props: { announcement: TrainAnnouncement }) {
   return <td className="time">{time(props.announcement)}</td>;
 }
 

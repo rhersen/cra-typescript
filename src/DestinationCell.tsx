@@ -2,7 +2,7 @@ import React from "react";
 import TrainAnnouncement, {fromLocation} from "./TrainAnnouncement";
 import locations from "./locations";
 
-export default function Destination({
+export default function DestinationCell({
   announcement
 }: {
   announcement: TrainAnnouncement;

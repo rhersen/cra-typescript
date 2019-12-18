@@ -1,7 +1,7 @@
 import React from "react";
 import TrainAnnouncement from "./TrainAnnouncement";
 
-export default function Deviation(props: { announcement: TrainAnnouncement }) {
+export default function DeviationCell(props: { announcement: TrainAnnouncement }) {
   return <td className="deviation">{text(props.announcement.Deviation)}</td>;
 }
 
