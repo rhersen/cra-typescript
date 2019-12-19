@@ -78,7 +78,9 @@ tr.train td.destination {
   td.destination span.from {
     display: none;
   }
+}
 
+@media (max-width: 1000px) {
   td.modified {
     display: none;
   }
