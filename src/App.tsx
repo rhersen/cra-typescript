@@ -3,6 +3,7 @@ import "./App.css";
 import locations from "./locations";
 import Table from "./Table";
 import Response from "./Response";
+import { SearchParams } from "./SearchParams";
 
 let intervalId: NodeJS.Timeout;
 
@@ -46,21 +47,15 @@ export default class App extends React.Component<{}, MyState> {
         <Table
           response={response}
           now={now}
-          fetchStation={async (location: string) => {
+          fetch={async (params: SearchParams) => {
+            let queryString: string;
+            if (params.location) {
+              queryString = `?location=${params.location}`;
+            } else {
+              queryString = `?train=${params.trainId}`;
+            }
             const rsp = await fetch(
-              `/.netlify/functions/announcements?location=${location}`
-            );
-            const json = await rsp.json();
-            if (json.msg) this.setState({ msg: json.msg });
-            if (json.TrainAnnouncement)
-              this.setState({
-                response: { announcements: json.TrainAnnouncement },
-                msg: ""
-              });
-          }}
-          fetchTrain={async (id: string) => {
-            const rsp = await fetch(
-              `/.netlify/functions/announcements?train=${id}`
+              `/.netlify/functions/announcements${queryString}`
             );
             const json = await rsp.json();
             if (json.msg) this.setState({ msg: json.msg });

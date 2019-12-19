@@ -4,7 +4,7 @@ import { TableProps } from "./TableProps";
 import TrainRow from "./TrainRow";
 
 export default function TrainTable(props: TableProps) {
-  const { response, now, fetchStation } = props;
+  const { response, now, fetch } = props;
   return (
     <table>
       <caption>tåg {trainIdent(response)}</caption>
@@ -14,7 +14,7 @@ export default function TrainTable(props: TableProps) {
           return (
             <TrainRow
               key={location}
-              onClick={() => fetchStation(location)}
+              onClick={() => fetch({ location })}
               announcement={announcement}
               now={now}
             />

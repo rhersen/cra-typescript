@@ -1,8 +1,8 @@
 import Response from "./Response";
+import { SearchParams } from "./SearchParams";
 
 export type TableProps = {
   response: Response;
   now: Date;
-  fetchStation: (location: string) => void;
-  fetchTrain: (id: string) => void;
+  fetch: (params: SearchParams) => void;
 };

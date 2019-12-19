@@ -10,11 +10,11 @@ export default function StationTable(props: TableProps) {
       <caption>{stationName(props.response)}</caption>
       <tbody>
         {props.response.announcements.map((announcement: TrainAnnouncement) => {
-          const id = announcement.AdvertisedTrainIdent;
+          const trainId = announcement.AdvertisedTrainIdent;
           return (
             <StationRow
-              key={id}
-              onClick={() => props.fetchTrain(id)}
+              key={trainId}
+              onClick={() => props.fetch({ trainId })}
               announcement={announcement}
               now={props.now}
             />
