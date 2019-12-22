@@ -70,14 +70,13 @@ function getTrainBody(train) {
       <FILTER>
          <AND>
             <NE name='Canceled' value='true' />
-            <EQ name='Advertised' value='true' />
             <EQ name='ActivityType' value='Avgang' />
             <EQ name='AdvertisedTrainIdent' value='${train}' />
             <OR>
-               <GT name='AdvertisedTimeAtLocation' value='$dateadd(-0:15:00)' />
-               <GT name='EstimatedTimeAtLocation' value='$dateadd(-0:15:00)' />
+               <GT name='AdvertisedTimeAtLocation' value='$dateadd(-2:00:00)' />
+               <GT name='EstimatedTimeAtLocation' value='$dateadd(-2:00:00)' />
             </OR>
-            <LT name='AdvertisedTimeAtLocation' value='$dateadd(1:00:00)' />
+            <LT name='AdvertisedTimeAtLocation' value='$dateadd(2:00:00)' />
          </AND>
       </FILTER>
      </QUERY>
