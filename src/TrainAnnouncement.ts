@@ -1,4 +1,4 @@
-import {addSeconds, differenceInSeconds, format, parseISO} from "date-fns";
+import { addSeconds, differenceInSeconds, format, parseISO } from "date-fns";
 import locations from "./locations";
 
 export default interface TrainAnnouncement {
@@ -11,7 +11,7 @@ export default interface TrainAnnouncement {
   Deviation: string[];
   EstimatedTimeAtLocation: string;
   EstimatedTimeIsPreliminary: boolean;
-  FromLocation: FromLocation[];
+  FromLocation: Location[];
   InformationOwner: string;
   LocationSignature: string;
   ModifiedTime: string;
@@ -22,26 +22,14 @@ export default interface TrainAnnouncement {
   ScheduledDepartureDateTime: string;
   TechnicalTrainIdent: string;
   TimeAtLocation: string;
-  ToLocation: ToLocation[];
+  ToLocation: Location[];
   TrackAtLocation: string;
   TypeOfTraffic: string;
-  ViaToLocation: ViaToLocation[];
+  ViaToLocation: Location[];
   WebLink: string;
 }
 
-interface FromLocation {
-  LocationName: string;
-  Priority: number;
-  Order: number;
-}
-
-interface ToLocation {
-  LocationName: string;
-  Priority: number;
-  Order: number;
-}
-
-interface ViaToLocation {
+interface Location {
   LocationName: string;
   Priority: number;
   Order: number;
@@ -74,14 +62,16 @@ export function countdown(announcement: TrainAnnouncement, now: Date) {
 }
 
 export function fromLocation(announcement: TrainAnnouncement) {
-  return announcement.FromLocation &&
-      announcement.FromLocation.map(location =>
-          locations(location.LocationName)
-      ).join();
+  return (
+    announcement.FromLocation &&
+    announcement.FromLocation.map(location =>
+      locations(location.LocationName)
+    ).join()
+  );
 }
 
 export function directionClass(announcement: TrainAnnouncement) {
   return /\d+[24680]$/.test(announcement.AdvertisedTrainIdent)
-      ? "northbound"
-      : "southbound";
+    ? "northbound"
+    : "southbound";
 }
