@@ -24,6 +24,7 @@ export function stationName(response: Response) {
   );
 }
 
-export function trainIdent(response: Response) {
-  return response.announcements[0].AdvertisedTrainIdent;
+export function train(response: Response): TrainAnnouncement | undefined {
+  const { announcements } = response;
+  return announcements.find(announcement => announcement.TypeOfTraffic);
 }
