@@ -1,14 +1,14 @@
-import TrainAnnouncement, {directionClass} from "./TrainAnnouncement";
+import TrainAnnouncement, { directionClass } from "./TrainAnnouncement";
 import TrainIdCell from "./TrainIdCell";
 import TrackCell from "./TrackCell";
 import ShortCell from "./ShortCell";
 import DestinationCell from "./DestinationCell";
 import AdvertisedTimeCell from "./AdvertisedTimeCell";
 import TimeCell from "./TimeCell";
-import ModifiedTimeCell from "./ModifiedTimeCell";
 import CountdownCell from "./CountdownCell";
 import DeviationCell from "./DeviationCell";
 import React from "react";
+import { DelayCell } from "./DelayCell";
 
 export default function StationRow({
   announcement,
@@ -27,7 +27,7 @@ export default function StationRow({
       <DestinationCell announcement={announcement} />
       <AdvertisedTimeCell announcement={announcement} />
       <TimeCell announcement={announcement} />
-      <ModifiedTimeCell announcement={announcement} />
+      <DelayCell announcement={announcement} />
       <CountdownCell announcement={announcement} now={now} />
       <DeviationCell announcement={announcement} />
     </tr>

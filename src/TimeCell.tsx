@@ -8,13 +8,10 @@ export default function TimeCell(props: { announcement: TrainAnnouncement }) {
 
 function time(announcement: TrainAnnouncement) {
   if (announcement.TimeAtLocation) {
-    const minutesMatch =
-      announcement.ModifiedTime.substr(14, 2) ===
-      announcement.TimeAtLocation.substr(14, 2);
     return (
       <b>
         {hmm(announcement.TimeAtLocation)}
-        {minutesMatch ? announcement.ModifiedTime.substr(16, 3) : undefined}
+        {announcement.ModifiedTime.substr(16, 3)}
       </b>
     );
   }

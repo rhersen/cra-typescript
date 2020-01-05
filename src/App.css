@@ -78,6 +78,10 @@ tr.train td.destination {
   td.destination span.from {
     display: none;
   }
+
+  td.delay {
+    display: none;
+  }
 }
 
 @media (max-width: 1000px) {

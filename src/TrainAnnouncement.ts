@@ -36,8 +36,7 @@ interface Location {
 }
 
 export function time(announcement: TrainAnnouncement) {
-  if (!announcement.TimeAtLocation) return "";
-  else return hmm(announcement.AdvertisedTimeAtLocation);
+  return hmm(announcement.AdvertisedTimeAtLocation);
 
   function hmm(advertised: string) {
     const parsed = parseISO(advertised);
