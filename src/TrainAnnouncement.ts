@@ -1,4 +1,4 @@
-import {addSeconds, differenceInSeconds, format, parseISO} from "date-fns";
+import { addSeconds, differenceInSeconds, format, parseISO } from "date-fns";
 import locations from "./locations";
 
 export default interface TrainAnnouncement {
@@ -80,16 +80,17 @@ export function directionClass(announcement: TrainAnnouncement) {
     : "southbound";
 }
 
-export function shortText(announcement: TrainAnnouncement) {
-  const a: string[] = announcement.Deviation;
-  return (
-      a &&
-      a.map(s => {
-        if (/Kort/.test(s)) return "K";
-        if (s.length) return "*";
-        return s;
-      })
-  );
+export function shortText(announcement: TrainAnnouncement): string {
+  const deviations: string[] = announcement.Deviation;
+  return deviations
+    ? deviations
+        .map(s => {
+          if (/Kort/.test(s)) return "K";
+          if (s.length) return "*";
+          return s;
+        })
+        .join()
+    : "";
 }
 
 export function deviationText(announcement: TrainAnnouncement): string[] {

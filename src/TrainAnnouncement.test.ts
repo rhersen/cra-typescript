@@ -19,16 +19,16 @@ describe("deviationText", () => {
 });
 
 describe("shortText", () => {
-  it("handles undefined", () => expect(shortText(a({}))).toBeUndefined());
+  it("handles undefined", () => expect(shortText(a({}))).toBe(""));
 
   it("handles empty array", () =>
-    expect(shortText(a({ Deviation: [] }))).toEqual([]));
+    expect(shortText(a({ Deviation: [] }))).toBe(""));
 
   it("shows K for short-train deviation", () =>
-      expect(shortText(a({ Deviation: ["Kort tåg"] }))).toEqual(["K"]));
+    expect(shortText(a({ Deviation: ["Kort tåg"] }))).toEqual("K"));
 
   it("shows * for other deviations", () =>
-    expect(shortText(a({ Deviation: ["Plattformsbyte"] }))).toEqual(["*"]));
+    expect(shortText(a({ Deviation: ["Plattformsbyte"] }))).toEqual("*"));
 });
 
 function a(obj: {}): TrainAnnouncement {
