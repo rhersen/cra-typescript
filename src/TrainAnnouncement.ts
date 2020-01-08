@@ -8,7 +8,7 @@ export default interface TrainAnnouncement {
   AdvertisedTimeAtLocation: string;
   AdvertisedTrainIdent: string;
   Canceled: boolean;
-  Deviation: string[];
+  Deviation: Description[];
   EstimatedTimeAtLocation: string;
   EstimatedTimeIsPreliminary: boolean;
   FromLocation: Location[];
@@ -81,7 +81,8 @@ export function directionClass(announcement: TrainAnnouncement) {
 }
 
 export function shortText(announcement: TrainAnnouncement): string {
-  const deviations: string[] = announcement.Deviation;
+  const deviations: string[] = (announcement.Deviation || []).map(descriptions);
+
   return deviations
     ? deviations
         .map(s => {
@@ -94,5 +95,11 @@ export function shortText(announcement: TrainAnnouncement): string {
 }
 
 export function deviationText(announcement: TrainAnnouncement): string[] {
-  return (announcement.Deviation || []).filter(s => !/Kort/.test(s));
+  return (announcement.Deviation || [])
+    .map(descriptions)
+    .filter(s => !/Kort/.test(s));
+}
+
+function descriptions(deviation: Description): string {
+  return deviation.Description;
 }

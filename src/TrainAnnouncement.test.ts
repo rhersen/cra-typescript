@@ -10,12 +10,14 @@ describe("deviationText", () => {
     expect(deviationText(a({ Deviation: [] }))).toEqual([]));
 
   it("handles single-element array", () =>
-    expect(deviationText(a({ Deviation: ["Plattformsbyte"] }))).toEqual([
-      "Plattformsbyte"
-    ]));
+    expect(
+      deviationText(a({ Deviation: [{ Description: "Plattformsbyte" }] }))
+    ).toEqual(["Plattformsbyte"]));
 
   it("ignores short-train deviation", () =>
-    expect(deviationText(a({ Deviation: ["Kort tåg"] }))).toEqual([]));
+    expect(
+      deviationText(a({ Deviation: [{ Description: "Kort tåg" }] }))
+    ).toEqual([]));
 });
 
 describe("shortText", () => {
@@ -25,10 +27,14 @@ describe("shortText", () => {
     expect(shortText(a({ Deviation: [] }))).toBe(""));
 
   it("shows K for short-train deviation", () =>
-    expect(shortText(a({ Deviation: ["Kort tåg"] }))).toEqual("K"));
+    expect(shortText(a({ Deviation: [{ Description: "Kort tåg" }] }))).toEqual(
+      "K"
+    ));
 
   it("shows * for other deviations", () =>
-    expect(shortText(a({ Deviation: ["Plattformsbyte"] }))).toEqual("*"));
+    expect(
+      shortText(a({ Deviation: [{ Description: "Plattformsbyte" }] }))
+    ).toEqual("*"));
 });
 
 function a(obj: {}): TrainAnnouncement {
