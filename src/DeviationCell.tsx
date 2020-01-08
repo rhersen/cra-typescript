@@ -1,10 +1,14 @@
 import React from "react";
-import TrainAnnouncement from "./TrainAnnouncement";
+import TrainAnnouncement, {deviationText} from "./TrainAnnouncement";
 
-export default function DeviationCell(props: { announcement: TrainAnnouncement }) {
-  return <td className="deviation">{text(props.announcement.Deviation)}</td>;
+export default function DeviationCell(props: {
+  announcement: TrainAnnouncement;
+}) {
+  return (
+    <td className="deviation">{deviationText(props.announcement).map(div)}</td>
+  );
 }
 
-function text(a: string[]) {
-  if (a) return a.filter(s => !/Kort/.test(s)).map(c => <div key={c}>{c}</div>);
+function div(c: string): JSX.Element {
+  return <div key={c}>{c}</div>;
 }
