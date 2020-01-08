@@ -8,9 +8,9 @@ export function DelayCell({
   announcement: TrainAnnouncement;
 }) {
   const diff: number = differenceInSeconds(
-    parseISO(announcement.ModifiedTime),
+    parseISO(announcement.TimeAtLocationWithSeconds),
     parseISO(announcement.AdvertisedTimeAtLocation)
   );
-  const s: string = announcement.TimeAtLocation ? diff.toString() : "";
+  const s: string = announcement.TimeAtLocationWithSeconds ? diff.toString() : "";
   return <td className="delay">{s}</td>;
 }
