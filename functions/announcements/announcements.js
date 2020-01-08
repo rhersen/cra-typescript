@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 exports.handler = async function({ queryStringParameters }) {
   try {
     const response = await fetch(
-      "http://api.trafikinfo.trafikverket.se/v1.2/data.json",
+      "https://api.trafikinfo.trafikverket.se/v2/data.json",
       {
         method: "POST",
         body: getBody(queryStringParameters),
@@ -44,7 +44,7 @@ function getLocationBody(location) {
   return `
 <REQUEST>
   <LOGIN authenticationkey='${process.env.TRAFIKVERKET_API_KEY}' />
-     <QUERY objecttype='TrainAnnouncement' orderby='AdvertisedTimeAtLocation'>
+     <QUERY objecttype='TrainAnnouncement' orderby='AdvertisedTimeAtLocation' schemaversion='1.6'>
       <FILTER>
          <AND>
             <NE name='Canceled' value='true' />
@@ -66,7 +66,7 @@ function getTrainBody(train) {
   return `
 <REQUEST>
   <LOGIN authenticationkey='${process.env.TRAFIKVERKET_API_KEY}' />
-     <QUERY objecttype='TrainAnnouncement' orderby='AdvertisedTimeAtLocation'>
+     <QUERY objecttype='TrainAnnouncement' orderby='AdvertisedTimeAtLocation' schemaversion='1.6'>
       <FILTER>
          <AND>
             <NE name='Canceled' value='true' />

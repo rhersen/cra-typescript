@@ -16,15 +16,15 @@ export default interface TrainAnnouncement {
   LocationSignature: string;
   ModifiedTime: string;
   NewEquipment: number;
-  OtherInformation: string[];
-  PlannedEstimatedTimeAtLocationIsValid: boolean;
-  ProductInformation: string[];
+  OtherInformation: Description[];
+  ProductInformation: Description[];
   ScheduledDepartureDateTime: string;
   TechnicalTrainIdent: string;
   TimeAtLocation: string;
+  TimeAtLocationWithSeconds: string;
   ToLocation: Location[];
   TrackAtLocation: string;
-  TypeOfTraffic: string;
+  TypeOfTraffic: Description;
   ViaToLocation: Location[];
   WebLink: string;
 }
@@ -33,6 +33,11 @@ interface Location {
   LocationName: string;
   Priority: number;
   Order: number;
+}
+
+interface Description {
+  Code: string;
+  Description: string;
 }
 
 export function time(announcement: TrainAnnouncement) {

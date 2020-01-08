@@ -10,8 +10,7 @@ function time(announcement: TrainAnnouncement) {
   if (announcement.TimeAtLocation) {
     return (
       <b>
-        {hmm(announcement.TimeAtLocation)}
-        {announcement.ModifiedTime.substr(16, 3)}
+        {hmm(announcement.TimeAtLocationWithSeconds)}
       </b>
     );
   }

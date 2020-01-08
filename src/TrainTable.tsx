@@ -11,7 +11,7 @@ export default function TrainTable(props: TableProps) {
     <table>
       {t ? (
         <caption>
-          {t.TypeOfTraffic} {t.AdvertisedTrainIdent} till{" "}
+          {t.TypeOfTraffic.Description} {t.AdvertisedTrainIdent} till{" "}
           {t.ToLocation.map(l => locations(l.LocationName)).join()}
         </caption>
       ) : null}
