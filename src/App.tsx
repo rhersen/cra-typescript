@@ -36,9 +36,39 @@ export default class App extends React.Component<{}, MyState> {
   }
 
   render() {
+    const stateUpdater = (newAnnouncement: TrainAnnouncement) => (
+      oldState: MyState
+    ) => {
+      const { announcements } = oldState.response;
+      const found = announcements.findIndex(
+        (oldAnnouncement: TrainAnnouncement) =>
+          oldAnnouncement.LocationSignature ===
+          newAnnouncement.LocationSignature
+      );
+      return {
+        response: {
+          announcements:
+            found === -1
+              ? announcements
+              : [
+                  ...announcements.slice(0, found),
+                  newAnnouncement,
+                  ...announcements.slice(found + 1)
+                ]
+        }
+      };
+    };
+
+    function queryString(params: SearchParams) {
+      return params.location
+          ? `?location=${params.location}`
+          : `?train=${params.trainId}`;
+    }
+
     const since = formatISO(sub(new Date(), { hours: 2 })).substr(0, 19);
     const until = formatISO(add(new Date(), { hours: 2 })).substr(0, 19);
     const { msg, response, now } = this.state;
+
     return (
       <div>
         {this.button("Sub")}
@@ -57,59 +87,38 @@ export default class App extends React.Component<{}, MyState> {
           response={response}
           now={now}
           fetch={async (params: SearchParams) => {
-            let queryString: string;
-            if (params.location) {
-              queryString = `?location=${params.location}`;
-            } else {
-              queryString = `?train=${params.trainId}`;
-            }
             const rsp = await fetch(
-              `/.netlify/functions/announcements${queryString}&since=${since}&until=${until}`
+              `/.netlify/functions/announcements${queryString(
+                params
+              )}&since=${since}&until=${until}`
             );
             const json = await rsp.json();
             if (json.msg) this.setState({ msg: json.msg });
-            if (json.TrainAnnouncement)
-              this.setState({
-                response: { announcements: json.TrainAnnouncement },
-                msg: ""
-              });
+            this.setAnnouncements(json.TrainAnnouncement);
+
             if (json.INFO) {
               if (eventSource) eventSource.close();
               eventSource = new EventSource(json.INFO.SSEURL);
               eventSource.onmessage = event => {
-                const parsed = JSON.parse(event.data);
-                const [body] = parsed.RESPONSE.RESULT;
-                const newAnnouncements: TrainAnnouncement[] =
-                  body.TrainAnnouncement;
-                console.log(newAnnouncements.length, "new announcements");
-                const [newAnnouncement] = newAnnouncements;
-                this.setState(oldState => {
-                  const { announcements } = oldState.response;
-                  const found = announcements.findIndex(
-                    announcement =>
-                      announcement.LocationSignature ===
-                      newAnnouncement.LocationSignature
-                  );
-                  if (found === -1) {
-                    return { response: { announcements } };
-                  } else {
-                    return {
-                      response: {
-                        announcements: [
-                          ...announcements.slice(0, found),
-                          newAnnouncement,
-                          ...announcements.slice(found + 1)
-                        ]
-                      }
-                    };
-                  }
-                });
+                this.setState(stateUpdater(getAnnouncements(event.data)));
               };
+            }
+
+            function getAnnouncements(data: string): TrainAnnouncement {
+              return JSON.parse(data).RESPONSE.RESULT[0].TrainAnnouncement[0];
             }
           }}
         />
       </div>
     );
+  }
+
+  private setAnnouncements(announcements: Array<TrainAnnouncement>) {
+    if (announcements)
+      this.setState({
+        response: { announcements },
+        msg: ""
+      });
   }
 
   button(location: string) {
