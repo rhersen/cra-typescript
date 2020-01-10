@@ -54,6 +54,7 @@ export function countdown(announcement: TrainAnnouncement, now: Date) {
   if (!now) return "";
 
   const dateLeft: string =
+    announcement.TimeAtLocationWithSeconds ||
     announcement.EstimatedTimeAtLocation ||
     announcement.AdvertisedTimeAtLocation;
   const seconds = differenceInSeconds(parseISO(dateLeft), now);
