@@ -39,20 +39,9 @@ td.advertised {
   text-align: right;
 }
 
-tr.station td.id,
-tr.train td.destination {
-  color: blue;
-  text-decoration: underline;
-}
-
 @media (max-width: 520px) {
   td.id {
     display: none;
-  }
-
-  tr.station td.destination {
-    color: blue;
-    text-decoration: underline;
   }
 }
 

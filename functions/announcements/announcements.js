@@ -35,44 +35,15 @@ exports.handler = async function({ queryStringParameters }) {
   }
 };
 
-function getBody({ location, train, since, until }) {
-  if (location) return getLocationBody(location);
-  if (train) return getTrainBody(train, since, until);
-}
-
-function getLocationBody(location) {
+function getBody({ since }) {
   return `
 <REQUEST>
   <LOGIN authenticationkey='${process.env.TRAFIKVERKET_API_KEY}' />
-     <QUERY objecttype='TrainAnnouncement' orderby='AdvertisedTimeAtLocation' schemaversion='1.6'>
-      <FILTER>
-         <AND>
-            <NE name='Canceled' value='true' />
-            <EQ name='Advertised' value='true' />
-            <EQ name='ActivityType' value='Avgang' />
-            <EQ name='LocationSignature' value='${location}' />
-            <OR>
-               <GT name='AdvertisedTimeAtLocation' value='$dateadd(-0:15:00)' />
-               <GT name='EstimatedTimeAtLocation' value='$dateadd(-0:15:00)' />
-            </OR>
-            <LT name='AdvertisedTimeAtLocation' value='$dateadd(1:00:00)' />
-         </AND>
-      </FILTER>
-     </QUERY>
-</REQUEST>`;
-}
-
-function getTrainBody(train, since, until) {
-  return `
-<REQUEST>
-  <LOGIN authenticationkey='${process.env.TRAFIKVERKET_API_KEY}' />
-    <QUERY sseurl='true' objecttype='TrainAnnouncement' orderby='AdvertisedTimeAtLocation' schemaversion='1.6'>
+    <QUERY sseurl='true' objecttype='TrainAnnouncement' orderby='TimeAtLocationWithSeconds' schemaversion='1.6'>
       <FILTER>
         <NE name='Canceled' value='true' />
-        <EQ name='ActivityType' value='Avgang' />
-        <EQ name='AdvertisedTrainIdent' value='${train}' />
-        <GT name='AdvertisedTimeAtLocation' value='${since}'/>
-        <LT name='AdvertisedTimeAtLocation' value='${until}'/>
+        <EQ name='Operator' value='SLL' />
+        <GT name='TimeAtLocationWithSeconds' value='${since}'/>
       </FILTER>
     </QUERY>
 </REQUEST>`;

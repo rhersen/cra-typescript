@@ -9,15 +9,17 @@ import CountdownCell from "./CountdownCell";
 import DeviationCell from "./DeviationCell";
 import React from "react";
 import { DelayCell } from "./DelayCell";
+import DestinationCell from "./DestinationCell";
 
 export default function TrainRow(props: {
-  onClick: () => void;
   announcement: TrainAnnouncement;
   now: Date;
 }) {
   return (
-    <tr className="train" onClick={props.onClick}>
+    <tr className="train">
       <TrainIdCell announcement={props.announcement} />
+      <DestinationCell announcement={props.announcement} />
+      <td>{props.announcement.ActivityType}</td>
       <TrackCell announcement={props.announcement} />
       <ShortCell announcement={props.announcement} />
       <LocationCell announcement={props.announcement} />

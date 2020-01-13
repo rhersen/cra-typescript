@@ -1,1 +1,0 @@
-export type SearchParams = { location?: string; trainId?: string };

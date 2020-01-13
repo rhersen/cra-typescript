@@ -74,13 +74,6 @@ export function fromLocation(announcement: TrainAnnouncement) {
     ).join()
   );
 }
-
-export function directionClass(announcement: TrainAnnouncement) {
-  return /\d+[24680]$/.test(announcement.AdvertisedTrainIdent)
-    ? "northbound"
-    : "southbound";
-}
-
 export function shortText(announcement: TrainAnnouncement): string {
   const deviations: string[] = (announcement.Deviation || []).map(descriptions);
 
