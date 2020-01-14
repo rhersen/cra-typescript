@@ -3,7 +3,7 @@ import "./App.css";
 import Table from "./Table";
 import Response from "./Response";
 import { formatISO, sub } from "date-fns";
-import TrainAnnouncement from "./TrainAnnouncement";
+import TrainAnnouncement, { key } from "./TrainAnnouncement";
 
 let intervalId: NodeJS.Timeout;
 let eventSource: EventSource | null = null;
@@ -54,11 +54,23 @@ export default class App extends React.Component<{}, MyState> {
   }
 
   button() {
-    const stateUpdater = (a: TrainAnnouncement) => ({ response }: MyState) => ({
-      response: {
-        announcements: [...response.announcements, a]
-      }
-    });
+    const stateUpdater = (newAnnouncement: TrainAnnouncement) => ({
+      response
+    }: MyState) => {
+      const newKey = key(newAnnouncement);
+      const found = response.announcements.findIndex(
+        oldAnnouncement => key(oldAnnouncement) === newKey
+      );
+      const announcements: TrainAnnouncement[] =
+        found === -1
+          ? [...response.announcements, newAnnouncement]
+          : [
+              ...response.announcements.slice(0, found),
+              newAnnouncement,
+              ...response.announcements.slice(found + 1)
+            ];
+      return { response: { announcements } };
+    };
 
     return (
       <button

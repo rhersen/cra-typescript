@@ -97,3 +97,11 @@ export function deviationText(announcement: TrainAnnouncement): string[] {
 function descriptions(deviation: Description): string {
   return deviation.Description;
 }
+
+export function key(announcement: TrainAnnouncement) {
+  return (
+    announcement.ActivityType.substr(1, 1) +
+    announcement.AdvertisedTrainIdent +
+    announcement.LocationSignature
+  );
+}

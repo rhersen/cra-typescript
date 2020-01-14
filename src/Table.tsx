@@ -1,6 +1,7 @@
 import React from "react";
-import { TableProps } from "./TableProps";
+import {TableProps} from "./TableProps";
 import TrainRow from "./TrainRow";
+import {key} from "./TrainAnnouncement";
 
 export default function Table(props: TableProps) {
   const { response, now } = props;
@@ -8,15 +9,7 @@ export default function Table(props: TableProps) {
     <table>
       <tbody>
         {response.announcements.map(a => {
-          return (
-            <TrainRow
-              key={
-                a.AdvertisedTrainIdent + a.ActivityType + a.LocationSignature
-              }
-              announcement={a}
-              now={now}
-            />
-          );
+          return <TrainRow key={key(a)} announcement={a} now={now} />;
         })}
       </tbody>
     </table>
