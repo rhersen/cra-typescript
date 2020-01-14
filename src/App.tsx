@@ -5,7 +5,6 @@ import Response from "./Response";
 import { formatISO, sub } from "date-fns";
 import TrainAnnouncement, { key } from "./TrainAnnouncement";
 
-let intervalId: NodeJS.Timeout;
 let eventSource: EventSource | null = null;
 
 type MyState = {
@@ -21,12 +20,7 @@ export default class App extends React.Component<{}, MyState> {
     now: new Date()
   };
 
-  componentDidMount() {
-    intervalId = setInterval(() => this.setState({ now: new Date() }), 990);
-  }
-
   componentWillUnmount() {
-    clearInterval(intervalId);
     if (eventSource) {
       eventSource.close();
       eventSource = null;
