@@ -10,14 +10,12 @@ let eventSource: EventSource | null = null;
 type MyState = {
   response: Response;
   msg: string;
-  now: Date;
 };
 
 export default class App extends React.Component<{}, MyState> {
   state: MyState = {
     response: { announcements: [] },
-    msg: "",
-    now: new Date()
+    msg: ""
   };
 
   componentWillUnmount() {
@@ -28,13 +26,13 @@ export default class App extends React.Component<{}, MyState> {
   }
 
   render() {
-    const { msg, response, now } = this.state;
+    const { msg, response } = this.state;
 
     return (
       <div>
         {this.button()}
         <div>{msg}</div>
-        <Table response={response} now={now} />
+        <Table response={response} now={new Date()} />
       </div>
     );
   }
