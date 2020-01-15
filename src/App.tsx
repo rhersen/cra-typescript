@@ -1,21 +1,25 @@
 import React from "react";
 import "./App.css";
-import Table from "./Table";
 import Response from "./Response";
-import { formatISO, sub } from "date-fns";
-import TrainAnnouncement, { key } from "./TrainAnnouncement";
+import * as grid from "./grid";
+import TrainAnnouncement from "./TrainAnnouncement";
+import Trains from "./Trains";
 
 let eventSource: EventSource | null = null;
 
 type MyState = {
   response: Response;
   msg: string;
+  loaded: string | undefined;
+  clicked: string | undefined;
 };
 
 export default class App extends React.Component<{}, MyState> {
   state: MyState = {
     response: { announcements: [] },
-    msg: ""
+    msg: "",
+    loaded: undefined,
+    clicked: undefined
   };
 
   componentWillUnmount() {
@@ -25,15 +29,65 @@ export default class App extends React.Component<{}, MyState> {
     }
   }
 
-  render() {
-    const { msg, response } = this.state;
+  getCurrent(direction: string) {
+    return () => {
+      this.setState({
+        clicked: direction,
+        loaded: undefined
+      });
 
+      fetch(`/.netlify/functions/announcements?direction=${direction}`)
+        .then(response => response.json())
+        .then(json => {
+          console.log(json);
+          this.setState({
+            response: json.TrainAnnouncement,
+            loaded: direction,
+            clicked: undefined
+          });
+        });
+    };
+  }
+
+  // eslint-disable-next-line complexity
+  render() {
     return (
-      <div>
-        {this.button()}
-        <div>{msg}</div>
-        <Table response={response} now={new Date()} />
-      </div>
+      <svg viewBox="-4 -6 8 12">
+        <polygon
+          className={
+            this.state.loaded === "n"
+              ? "loaded"
+              : this.state.clicked === "n"
+              ? "clicked"
+              : "idle"
+          }
+          points={grid.leftTriangle()}
+          stroke="#005CFF"
+          fill="#f5f5f5"
+          onClick={this.getCurrent("n")}
+        />
+        <polygon
+          className={
+            this.state.loaded === "s"
+              ? "loaded"
+              : this.state.clicked === "s"
+              ? "clicked"
+              : "idle"
+          }
+          points={grid.rightTriangle()}
+          stroke="#005CFF"
+          fill="#f5f5f5"
+          onClick={this.getCurrent("s")}
+        />
+        {this.state.response && (
+          <g>
+            <text className="timestamp" textAnchor="middle" x="-1.5" y="-0.5">
+              hello
+            </text>
+            <Trains response={this.state.response} />
+          </g>
+        )}
+      </svg>
     );
   }
 
@@ -43,58 +97,5 @@ export default class App extends React.Component<{}, MyState> {
         response: { announcements },
         msg: ""
       });
-  }
-
-  button() {
-    const stateUpdater = (newAnnouncement: TrainAnnouncement) => ({
-      response
-    }: MyState) => {
-      const newKey = key(newAnnouncement);
-      const found = response.announcements.findIndex(
-        oldAnnouncement => key(oldAnnouncement) === newKey
-      );
-      const announcements: TrainAnnouncement[] =
-        found === -1
-          ? [...response.announcements, newAnnouncement]
-          : [
-              ...response.announcements.slice(0, found),
-              newAnnouncement,
-              ...response.announcements.slice(found + 1)
-            ];
-
-      if (response.announcements.length > 32)
-        return { response: { announcements: announcements.slice(1) } };
-
-      return { response: { announcements } };
-    };
-
-    return (
-      <button
-        onClick={async () => {
-          const rsp = await fetch(
-            `/.netlify/functions/announcements?since=${formatISO(
-              sub(new Date(), { minutes: 1 })
-            ).substr(0, 19)}`
-          );
-          const json = await rsp.json();
-          if (json.msg) this.setState({ msg: json.msg });
-          this.setAnnouncements(json.TrainAnnouncement);
-
-          if (json.INFO) {
-            if (eventSource) eventSource.close();
-            eventSource = new EventSource(json.INFO.SSEURL);
-            eventSource.onmessage = event => {
-              this.setState(stateUpdater(getAnnouncements(event.data)));
-            };
-          }
-
-          function getAnnouncements(data: string): TrainAnnouncement {
-            return JSON.parse(data).RESPONSE.RESULT[0].TrainAnnouncement[0];
-          }
-        }}
-      >
-        fetch
-      </button>
-    );
   }
 }

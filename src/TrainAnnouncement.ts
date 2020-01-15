@@ -1,4 +1,3 @@
-import { addSeconds, differenceInSeconds, format, parseISO } from "date-fns";
 import locations from "./locations";
 
 export default interface TrainAnnouncement {
@@ -38,32 +37,6 @@ interface Location {
 interface Description {
   Code: string;
   Description: string;
-}
-
-export function time(announcement: TrainAnnouncement) {
-  return hmm(announcement.AdvertisedTimeAtLocation);
-
-  function hmm(advertised: string) {
-    const parsed = parseISO(advertised);
-    return format(parsed, parsed.getSeconds() ? "H:mm:ss" : "H:mm");
-  }
-}
-
-// eslint-disable-next-line complexity
-export function countdown(announcement: TrainAnnouncement, now: Date) {
-  if (!now) return "";
-
-  const dateLeft: string =
-    announcement.TimeAtLocationWithSeconds ||
-    announcement.EstimatedTimeAtLocation ||
-    announcement.AdvertisedTimeAtLocation;
-  const seconds = differenceInSeconds(parseISO(dateLeft), now);
-
-  if (seconds <= -100) return "";
-  if (seconds >= 600)
-    return `${format(addSeconds(new Date(0), seconds), "m")}min`;
-  if (seconds >= 100) return format(addSeconds(new Date(0), seconds), "m:ss");
-  return `${seconds}s`;
 }
 
 export function fromLocation(announcement: TrainAnnouncement) {
