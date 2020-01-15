@@ -61,6 +61,10 @@ export default class App extends React.Component<{}, MyState> {
               newAnnouncement,
               ...response.announcements.slice(found + 1)
             ];
+
+      if (response.announcements.length > 32)
+        return { response: { announcements: announcements.slice(1) } };
+
       return { response: { announcements } };
     };
 
