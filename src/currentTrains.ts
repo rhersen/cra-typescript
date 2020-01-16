@@ -1,13 +1,14 @@
 import _ from "lodash";
 import * as wgs from "./wgs";
+import TrainAnnouncement from "./TrainAnnouncement";
 
-export default function currentTrains(announcement: any) {
+export default function currentTrains(announcement: TrainAnnouncement[]) {
   const grouped = _.groupBy(announcement, "AdvertisedTrainIdent");
   const object = _.filter(_.map(grouped, announcementsToObject), "actual");
   const sorted = sortTrains(object, direction(announcement));
   return _.reject(sorted, hasArrivedAtDestination);
 
-  function announcementsToObject(v: any) {
+  function announcementsToObject(v: TrainAnnouncement[]) {
     const actual = _.maxBy(
       _.filter(v, "TimeAtLocation"),
       a => a.TimeAtLocation + a.ActivityType
@@ -20,14 +21,14 @@ export default function currentTrains(announcement: any) {
     return { actual, next };
   }
 
-  function direction(announcements: string | any[]) {
+  function direction(announcements: TrainAnnouncement[]) {
     return (
       announcements.length &&
       /\d\d\d[13579]/.test(announcements[0].AdvertisedTrainIdent)
     );
   }
 
-  function hasArrivedAtDestination(train: any) {
+  function hasArrivedAtDestination(train: { actual: TrainAnnouncement; }) {
     return (
       train.actual.ActivityType === "Ankomst" &&
       _.map(train.actual.ToLocation, "LocationName").join() ===
@@ -35,11 +36,17 @@ export default function currentTrains(announcement: any) {
     );
   }
 
-  function sortTrains(obj: { actual: any; next: any; }[], dir: number | boolean) {
+  function sortTrains(
+    obj: {
+      actual: TrainAnnouncement | undefined;
+      next: TrainAnnouncement | undefined;
+    }[],
+    dir: number | boolean
+  ) {
     return _.orderBy(
       obj,
       [
-        a => north(a.actual.LocationSignature),
+        a => north(a.actual ? a.actual.LocationSignature : ""),
         "actual.ActivityType",
         "actual.TimeAtLocation"
       ],
