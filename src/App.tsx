@@ -39,7 +39,6 @@ export default class App extends React.Component<{}, MyState> {
       fetch(`/.netlify/functions/announcements?direction=${direction}`)
         .then(response => response.json())
         .then(json => {
-          console.log(json);
           this.setState({
             response: json.TrainAnnouncement,
             loaded: direction,
@@ -49,7 +48,6 @@ export default class App extends React.Component<{}, MyState> {
     };
   }
 
-  // eslint-disable-next-line complexity
   render() {
     return (
       <svg viewBox="-4 -6 8 12">

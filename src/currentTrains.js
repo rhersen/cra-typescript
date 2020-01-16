@@ -41,9 +41,9 @@ export default function currentTrains(announcement, stations) {
     )
   }
 
-  function sortTrains(object, dir) {
+  function sortTrains(obj, dir) {
     return orderby(
-      object,
+      obj,
       [
         a => north(a.actual.LocationSignature, stations),
         'actual.ActivityType',
