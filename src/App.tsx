@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import Response from "./Response";
 import * as grid from "./grid";
 import TrainAnnouncement from "./TrainAnnouncement";
 import Trains from "./Trains";
@@ -8,7 +7,7 @@ import Trains from "./Trains";
 let eventSource: EventSource | null = null;
 
 type MyState = {
-  response: Response;
+  response: TrainAnnouncement[];
   msg: string;
   loaded: string | undefined;
   clicked: string | undefined;
@@ -16,7 +15,7 @@ type MyState = {
 
 export default class App extends React.Component<{}, MyState> {
   state: MyState = {
-    response: { announcements: [] },
+    response: [],
     msg: "",
     loaded: undefined,
     clicked: undefined
@@ -39,8 +38,9 @@ export default class App extends React.Component<{}, MyState> {
       fetch(`/.netlify/functions/announcements?direction=${direction}`)
         .then(response => response.json())
         .then(json => {
+          const response = json.TrainAnnouncement;
           this.setState({
-            response: json.TrainAnnouncement,
+            response,
             loaded: direction,
             clicked: undefined
           });
@@ -92,7 +92,7 @@ export default class App extends React.Component<{}, MyState> {
   setAnnouncements(announcements: TrainAnnouncement[]) {
     if (announcements)
       this.setState({
-        response: { announcements },
+        response: announcements,
         msg: ""
       });
   }

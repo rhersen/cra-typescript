@@ -1,25 +1,19 @@
-import groupby from 'lodash.groupby'
-import filter from 'lodash.filter'
-import map from 'lodash.map'
-import reject from 'lodash.reject'
-import maxby from 'lodash.maxby'
-import minby from 'lodash.minby'
-import orderby from 'lodash.orderby'
+import _ from "lodash";
 import * as wgs from './wgs'
 
 export default function currentTrains(announcement, stations) {
-  const grouped = groupby(announcement, 'AdvertisedTrainIdent')
-  const object = filter(map(grouped, announcementsToObject), 'actual')
+  const grouped = _.groupBy(announcement, 'AdvertisedTrainIdent')
+  const object = _.filter(_.map(grouped, announcementsToObject), 'actual')
   const sorted = sortTrains(object, direction(announcement), stations)
-  return reject(sorted, hasArrivedAtDestination)
+  return _.reject(sorted, hasArrivedAtDestination)
 
   function announcementsToObject(v) {
-    const actual = maxby(
-      filter(v, 'TimeAtLocation'),
+    const actual = _.maxBy(
+      _.filter(v, 'TimeAtLocation'),
       a => a.TimeAtLocation + a.ActivityType
     )
-    const next = minby(
-      reject(v, 'TimeAtLocation'),
+    const next = _.minBy(
+      _.reject(v, 'TimeAtLocation'),
       a => a.AdvertisedTimeAtLocation + a.ActivityType
     )
 
@@ -36,13 +30,13 @@ export default function currentTrains(announcement, stations) {
   function hasArrivedAtDestination(train) {
     return (
       train.actual.ActivityType === 'Ankomst' &&
-      map(train.actual.ToLocation, 'LocationName').join() ===
+      _.map(train.actual.ToLocation, 'LocationName').join() ===
         train.actual.LocationSignature
     )
   }
 
   function sortTrains(obj, dir) {
-    return orderby(
+    return _.orderBy(
       obj,
       [
         a => north(a.actual.LocationSignature, stations),
