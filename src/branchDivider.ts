@@ -1,7 +1,8 @@
 import * as wgs from "./wgs";
-import TrainAnnouncement from "./TrainAnnouncement";
+import { Actual } from "./currentTrains";
 
-export default function branchDivider(train: { actual: TrainAnnouncement }) {
+export default function branchDivider(train: Actual): string {
+  if (!train.actual) return "";
   const location = train.actual.LocationSignature;
   const north = wgs.north(location);
   if (!north) return "";

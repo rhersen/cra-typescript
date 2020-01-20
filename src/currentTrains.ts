@@ -2,18 +2,28 @@ import _ from "lodash";
 import * as wgs from "./wgs";
 import TrainAnnouncement from "./TrainAnnouncement";
 
-export default function currentTrains(announcement: TrainAnnouncement[]) {
+export type Actual = {
+  next: TrainAnnouncement | undefined;
+  actual: TrainAnnouncement | undefined;
+};
+
+export default function currentTrains(
+  announcement: TrainAnnouncement[]
+): Actual[] {
   const grouped = _.groupBy(announcement, "AdvertisedTrainIdent");
-  const object = _.filter(_.map(grouped, announcementsToObject), "actual");
-  const sorted = sortTrains(object, direction(announcement));
+  const object: Actual[] = _.filter(
+    _.map(grouped, announcementsToObject),
+    "actual"
+  );
+  const sorted: Actual[] = sortTrains(object, direction(announcement));
   return _.reject(sorted, hasArrivedAtDestination);
 
-  function announcementsToObject(v: TrainAnnouncement[]) {
-    const actual = _.maxBy(
+  function announcementsToObject(v: TrainAnnouncement[]): Actual {
+    const actual: TrainAnnouncement | undefined = _.maxBy(
       _.filter(v, "TimeAtLocation"),
       a => a.TimeAtLocation + a.ActivityType
     );
-    const next = _.minBy(
+    const next: TrainAnnouncement | undefined = _.minBy(
       _.reject(v, "TimeAtLocation"),
       a => a.AdvertisedTimeAtLocation + a.ActivityType
     );
@@ -28,21 +38,16 @@ export default function currentTrains(announcement: TrainAnnouncement[]) {
     );
   }
 
-  function hasArrivedAtDestination(train: { actual: TrainAnnouncement; }) {
+  function hasArrivedAtDestination({ actual }: Actual) {
+    if (!actual) return false;
+    if (actual.ActivityType !== "Ankomst") return false;
     return (
-      train.actual.ActivityType === "Ankomst" &&
-      _.map(train.actual.ToLocation, "LocationName").join() ===
-        train.actual.LocationSignature
+      _.map(actual.ToLocation, "LocationName").join() ===
+      actual.LocationSignature
     );
   }
 
-  function sortTrains(
-    obj: {
-      actual: TrainAnnouncement | undefined;
-      next: TrainAnnouncement | undefined;
-    }[],
-    dir: number | boolean
-  ) {
+  function sortTrains(obj: Actual[], dir: number | boolean): Actual[] {
     return _.orderBy(
       obj,
       [

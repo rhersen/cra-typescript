@@ -1,12 +1,13 @@
 import React from "react";
 import _ from "lodash";
 import TrainAnnouncement from "./TrainAnnouncement";
-import difference_in_minutes from "date-fns/difference_in_minutes";
 import { line1, line2 } from "./formatLatestAnnouncement";
+import { color } from "./color";
+import { Actual } from "./currentTrains";
 
 export default function Branch(props: {
-  trains: any;
-  position: any;
+  trains: Actual[];
+  position: string;
   size: string;
 }) {
   const trainText = (train: { actual: TrainAnnouncement }) => {
@@ -52,29 +53,20 @@ export default function Branch(props: {
   }
 }
 
-function color(a: any) {
-  const delay = minutes(a);
-  return delay < 1
-    ? "#0f0"
-    : delay < 2
-    ? "#fff"
-    : delay < 4
-    ? "#ff0"
-    : delay < 8
-    ? "#f80"
-    : "#f00";
-}
+const dyValues = [
+  undefined,
+  6,
+  (4 * (4 - 1.2)) / 3,
+  undefined,
+  undefined,
+  1.5,
+  1.15,
+  0.85
+];
 
-function minutes(a: any) {
-  return difference_in_minutes(a.TimeAtLocation, a.AdvertisedTimeAtLocation);
-}
-
-function dy(l: any) {
-  if (l === 1) return 6;
-  if (l === 2) return (4 * (4 - 1.2)) / 3;
+function dy(l: number) {
+  const dyValue = dyValues[l];
+  if (dyValue) return dyValue;
   if (l === 3) return (4 * (4 - 1.2)) / (l + 1);
-  if (l === 5) return 1.5;
-  if (l === 6) return 1.15;
-  if (l === 7) return 0.85;
   return (4 * (4 - 1.2)) / (l + 1);
 }
