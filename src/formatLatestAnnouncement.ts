@@ -1,19 +1,21 @@
-import map from "lodash.map";
+import _ from "lodash";
 import locations from "./locations";
 import difference_in_minutes from "date-fns/difference_in_minutes";
+import { Actual } from "./currentTrains";
+import TrainAnnouncement from "./TrainAnnouncement";
 
-export function line1(train) {
+export function line1(train: Actual) {
   const a = train.actual;
 
   if (!a) return "Aktuell information saknas";
 
-  return `${id(a)} mot ${map(map(a.ToLocation, "LocationName"), loc =>
+  return `${id(a)} mot ${_.map(_.map(a.ToLocation, "LocationName"), loc =>
     stationName(loc)
   )} ${precision(a)}`;
 }
 
-export function line2(train) {
-  const a = train.actual;
+export function line2(train: Actual) {
+  const a: TrainAnnouncement | undefined = train.actual;
 
   if (!a) return "line2";
 
@@ -22,16 +24,16 @@ export function line2(train) {
     16
   )}`;
 
-  function location(announcement) {
+  function location(announcement: TrainAnnouncement) {
     return stationName(announcement.LocationSignature);
   }
 }
 
-function id(a) {
+function id(a: TrainAnnouncement) {
   return a.AdvertisedTrainIdent;
 }
 
-function stationName(locationSignature) {
+function stationName(locationSignature: string) {
   return (
     (locations &&
       locations(locationSignature) &&
@@ -40,7 +42,7 @@ function stationName(locationSignature) {
   );
 }
 
-function precision(a) {
+function precision(a: TrainAnnouncement) {
   const delay = difference_in_minutes(
     a.TimeAtLocation,
     a.AdvertisedTimeAtLocation
@@ -55,6 +57,6 @@ function precision(a) {
     : "i tid";
 }
 
-function activity(a) {
+function activity(a: TrainAnnouncement) {
   return a.ActivityType === "Ankomst" ? "ank" : "avg";
 }
