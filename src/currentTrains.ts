@@ -3,7 +3,6 @@ import * as wgs from "./wgs";
 import TrainAnnouncement from "./TrainAnnouncement";
 
 export type Actual = {
-  next: TrainAnnouncement | undefined;
   actual: TrainAnnouncement | undefined;
 };
 
@@ -23,12 +22,8 @@ export default function currentTrains(
       _.filter(v, "TimeAtLocation"),
       a => a.TimeAtLocation + a.ActivityType
     );
-    const next: TrainAnnouncement | undefined = _.minBy(
-      _.reject(v, "TimeAtLocation"),
-      a => a.AdvertisedTimeAtLocation + a.ActivityType
-    );
 
-    return { actual, next };
+    return { actual,  };
   }
 
   function direction(announcements: TrainAnnouncement[]) {
