@@ -2,17 +2,17 @@ import map from "lodash.map";
 import locations from "./locations";
 import difference_in_minutes from "date-fns/difference_in_minutes";
 
-export function line1(train, stations) {
+export function line1(train) {
   const a = train.actual;
 
   if (!a) return "Aktuell information saknas";
 
   return `${id(a)} mot ${map(map(a.ToLocation, "LocationName"), loc =>
-    stationName(loc, stations)
+    stationName(loc)
   )} ${precision(a)}`;
 }
 
-export function line2(train, stations) {
+export function line2(train) {
   const a = train.actual;
 
   if (!a) return "line2";
@@ -23,7 +23,7 @@ export function line2(train, stations) {
   )}`;
 
   function location(announcement) {
-    return stationName(announcement.LocationSignature, stations);
+    return stationName(announcement.LocationSignature);
   }
 }
 
@@ -31,7 +31,7 @@ function id(a) {
   return a.AdvertisedTrainIdent;
 }
 
-function stationName(locationSignature, stations) {
+function stationName(locationSignature) {
   return (
     (locations &&
       locations(locationSignature) &&
