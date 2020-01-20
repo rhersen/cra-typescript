@@ -23,7 +23,7 @@ export default function currentTrains(
       a => a.TimeAtLocation + a.ActivityType
     );
 
-    return { actual,  };
+    return { actual };
   }
 
   function direction(announcements: TrainAnnouncement[]) {

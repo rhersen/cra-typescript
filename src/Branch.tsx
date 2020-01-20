@@ -1,6 +1,5 @@
 import React from "react";
 import _ from "lodash";
-import TrainAnnouncement from "./TrainAnnouncement";
 import { line1, line2 } from "./formatLatestAnnouncement";
 import { color } from "./color";
 import { Actual } from "./currentTrains";
@@ -10,7 +9,9 @@ export default function Branch(props: {
   position: string;
   size: string;
 }) {
-  const trainText = (train: { actual: TrainAnnouncement }) => {
+  const trainText = (train: Actual) => {
+    if (!train.actual) return undefined;
+
     return [
       <tspan
         x="0.05"
