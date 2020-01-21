@@ -9,13 +9,15 @@ export default function Branch(props: {
   position: string;
   size: string;
 }) {
+  const fontSize = 0.3;
+
   const trainText = (train: Actual) => {
     if (!train.actual) return undefined;
 
     return [
       <tspan
         x="0.05"
-        dy={fontSize() * dy(props.trains.length)}
+        dy={fontSize * dy(props.trains.length)}
         fill={color(train.actual)}
         key={train.actual.AdvertisedTrainIdent + 1}
       >
@@ -23,7 +25,7 @@ export default function Branch(props: {
       </tspan>,
       <tspan
         x="0.05"
-        dy={fontSize()}
+        dy={fontSize}
         fill={color(train.actual)}
         key={train.actual.AdvertisedTrainIdent + 2}
       >
@@ -34,24 +36,11 @@ export default function Branch(props: {
   return (
     <g className={`pos-${props.position}`}>
       <rect className="branch" x="0" y="0" height="4" width="4" />
-      <text className="train" style={{ fontSize: fontSize() }}>
+      <text className="train" style={{ fontSize: fontSize }}>
         {_.map(props.trains, trainText)}
       </text>
     </g>
   );
-
-  function fontSize() {
-    const normal = 0.3;
-
-    const sizes = {
-      normal: normal,
-      expanded: normal / 2,
-      collapsed: normal * 2
-    };
-
-    // @ts-ignore
-    return sizes[props.size];
-  }
 }
 
 const dyValues = [

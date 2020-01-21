@@ -28,15 +28,15 @@
 }
 
 polygon {
-  stroke-width: 0.02px
+  stroke-width: 0.02px;
 }
 
 polygon.clicked {
-  fill: gray
+  fill: gray;
 }
 
 polygon.loaded {
-  fill: hsl(240, 100%, 50%)
+  fill: hsl(240, 100%, 50%);
 }
 
 g {
@@ -63,52 +63,8 @@ g.pos-c {
   transform: translate(-2px, -2px);
 }
 
-.expanded-nw > .pos-nw {
-  transform: translate(-4px, -4px) scale(2, 2);
-}
-
-.expanded-ne > .pos-ne {
-  transform: translate(-4px, -4px) scale(2, 2);
-}
-
-.expanded-c > .pos-c {
-  transform: translate(-4px, -4px) scale(2, 2);
-}
-
-.expanded-sw > .pos-sw {
-  transform: translate(-4px, -4px) scale(2, 2);
-}
-
-.expanded-se > .pos-se {
-  transform: translate(-4px, -4px) scale(2, 2);
-}
-
-.expanded-ne > .pos-nw, .expanded-c > .pos-nw, .expanded-sw > .pos-nw, .expanded-se > .pos-nw {
-  transform: translate(-4px, -6px) scale(0.5, 0.5);
-}
-
-.expanded-nw > .pos-ne, .expanded-c > .pos-ne, .expanded-sw > .pos-ne, .expanded-se > .pos-ne {
-  transform: translate(2px, -6px) scale(0.5, 0.5);
-}
-
-.expanded-nw > .pos-sw, .expanded-c > .pos-sw, .expanded-ne > .pos-sw, .expanded-se > .pos-sw {
-  transform: translate(-4px, 4px) scale(0.5, 0.5);
-}
-
-.expanded-nw > .pos-se, .expanded-c > .pos-se, .expanded-ne > .pos-se, .expanded-sw > .pos-se {
-  transform: translate(2px, 4px) scale(0.5, 0.5);
-}
-
-.expanded-nw > .pos-c, .expanded-ne > .pos-c {
-  transform: translate(-1px, 4px) scale(0.5, 0.5);
-}
-
-.expanded-sw > .pos-c, .expanded-se > .pos-c {
-  transform: translate(-1px, -6px) scale(0.5, 0.5);
-}
-
 text.timestamp {
-  fill: #005CFF;
+  fill: #005cff;
   font-size: 0.2px;
 }
 
@@ -119,5 +75,5 @@ text.train {
 rect.branch {
   fill: #004;
   stroke: red;
-  stroke-width: 0.02px
+  stroke-width: 0.02px;
 }
