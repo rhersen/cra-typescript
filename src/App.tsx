@@ -9,16 +9,16 @@ let eventSource: EventSource | null = null;
 type MyState = {
   response: TrainAnnouncement[];
   msg: string;
-  loaded: string | undefined;
-  clicked: string | undefined;
+  loaded: string;
+  clicked: string;
 };
 
 export default class App extends React.Component<{}, MyState> {
   state: MyState = {
     response: [],
     msg: "",
-    loaded: undefined,
-    clicked: undefined
+    loaded: "",
+    clicked: ""
   };
 
   componentWillUnmount() {
@@ -32,7 +32,7 @@ export default class App extends React.Component<{}, MyState> {
     return () => {
       this.setState({
         clicked: direction,
-        loaded: undefined
+        loaded: ""
       });
 
       fetch(`/.netlify/functions/announcements?direction=${direction}`)
@@ -42,7 +42,7 @@ export default class App extends React.Component<{}, MyState> {
           this.setState({
             response,
             loaded: direction,
-            clicked: undefined
+            clicked: ""
           });
         });
     };
@@ -80,13 +80,5 @@ export default class App extends React.Component<{}, MyState> {
       : this.state.clicked === direction
       ? "clicked"
       : "idle";
-  }
-
-  setAnnouncements(announcements: TrainAnnouncement[]) {
-    if (announcements)
-      this.setState({
-        response: announcements,
-        msg: ""
-      });
   }
 }
