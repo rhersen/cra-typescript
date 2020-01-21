@@ -18,7 +18,7 @@ export default function currentTrains(
   return _.reject(sorted, hasArrivedAtDestination);
 
   function announcementsToObject(v: TrainAnnouncement[]): Actual {
-    const actual: TrainAnnouncement | undefined = _.maxBy(
+    const actual = _.maxBy(
       _.filter(v, "TimeAtLocation"),
       a => a.TimeAtLocation + a.ActivityType
     );

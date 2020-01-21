@@ -2262,8 +2262,8 @@ let locations: {
     LocationSignature: string;
     Geometry: { SWEREF99TM: string; WGS84: string };
     AdvertisedShortLocationName: string;
-    east: number | undefined;
-    north: number | undefined;
+    east: number;
+    north: number;
   };
 };
 
@@ -2275,8 +2275,8 @@ export default (location: string) => {
       const match = /POINT \(([\d\\.]+) ([\d\\.]+)\)/.exec(obj.Geometry.WGS84);
       locations[obj.LocationSignature] = {
         ...obj,
-        east: match ? parseFloat(match[1]) : undefined,
-        north: match ? parseFloat(match[2]) : undefined
+        east: match ? parseFloat(match[1]) : 0,
+        north: match ? parseFloat(match[2]) : 0
       };
     });
   }

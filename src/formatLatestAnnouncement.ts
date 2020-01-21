@@ -15,7 +15,7 @@ export function line1(train: Actual) {
 }
 
 export function line2(train: Actual) {
-  const a: TrainAnnouncement | undefined = train.actual;
+  const a = train.actual;
 
   if (!a) return "line2";
 

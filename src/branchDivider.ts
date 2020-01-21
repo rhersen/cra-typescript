@@ -15,7 +15,7 @@ export default function branchDivider(train: Actual): string {
   return "c";
 
   function leftRight(limit: number) {
-    const east: number | undefined = wgs.east(location);
+    const east = wgs.east(location);
     if (!east) return "";
     return east < limit ? "w" : "e";
   }
