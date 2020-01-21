@@ -52,26 +52,14 @@ export default class App extends React.Component<{}, MyState> {
     return (
       <svg viewBox="-4 -6 8 12">
         <polygon
-          className={
-            this.state.loaded === "n"
-              ? "loaded"
-              : this.state.clicked === "n"
-              ? "clicked"
-              : "idle"
-          }
+          className={this.arrowClass("n")}
           points={grid.leftTriangle()}
           stroke="#005CFF"
           fill="#f5f5f5"
           onClick={this.getCurrent("n")}
         />
         <polygon
-          className={
-            this.state.loaded === "s"
-              ? "loaded"
-              : this.state.clicked === "s"
-              ? "clicked"
-              : "idle"
-          }
+          className={this.arrowClass("s")}
           points={grid.rightTriangle()}
           stroke="#005CFF"
           fill="#f5f5f5"
@@ -87,6 +75,14 @@ export default class App extends React.Component<{}, MyState> {
         )}
       </svg>
     );
+  }
+
+  private arrowClass(direction: string) {
+    return this.state.loaded === direction
+      ? "loaded"
+      : this.state.clicked === direction
+      ? "clicked"
+      : "idle";
   }
 
   setAnnouncements(announcements: TrainAnnouncement[]) {
