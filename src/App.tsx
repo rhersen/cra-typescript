@@ -67,9 +67,6 @@ export default class App extends React.Component<{}, MyState> {
         />
         {this.state.response && (
           <g>
-            <text className="timestamp" textAnchor="middle" x="-1.5" y="-0.5">
-              hello
-            </text>
             <Trains response={this.state.response} />
           </g>
         )}

@@ -28,7 +28,7 @@
 }
 
 polygon {
-  stroke-width: 0.02px;
+  stroke-width: 0.02;
 }
 
 polygon.clicked {
@@ -63,17 +63,12 @@ g.pos-c {
   transform: translate(-2px, -2px);
 }
 
-text.timestamp {
-  fill: #005cff;
-  font-size: 0.2px;
-}
-
 text.train {
   font-family: Arial Narrow, Arial, sans-serif;
 }
 
 rect.branch {
-  fill: #004;
+  fill: #003;
   stroke: red;
-  stroke-width: 0.02px;
+  stroke-width: 0.02;
 }
