@@ -1,5 +1,3 @@
-import locations from "./locations";
-
 export default interface TrainAnnouncement {
   ActivityId: string;
   ActivityType: string;
@@ -39,14 +37,6 @@ interface Description {
   Description: string;
 }
 
-export function fromLocation(announcement: TrainAnnouncement) {
-  return (
-    announcement.FromLocation &&
-    announcement.FromLocation.map(location =>
-      locations(location.LocationName)
-    ).join()
-  );
-}
 export function shortText(announcement: TrainAnnouncement): string {
   const deviations: string[] = (announcement.Deviation || []).map(descriptions);
 
