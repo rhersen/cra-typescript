@@ -1,6 +1,6 @@
 import _ from "lodash";
 import locations from "./locations";
-import difference_in_minutes from "date-fns/difference_in_minutes";
+import difference_in_seconds from "date-fns/difference_in_seconds";
 import { Actual } from "./currentTrains";
 import TrainAnnouncement from "./TrainAnnouncement";
 
@@ -19,10 +19,9 @@ export function line2(train: Actual) {
 
   if (!a) return "line2";
 
-  return `${activity(a)} ${location(a)} kl ${a.TimeAtLocation.substring(
-    11,
-    16
-  )}`;
+  return `${activity(a)} ${location(
+    a
+  )} kl ${a.TimeAtLocationWithSeconds.substring(11, 19)}`;
 
   function location(announcement: TrainAnnouncement) {
     return stationName(announcement.LocationSignature);
@@ -43,18 +42,12 @@ function stationName(locationSignature: string) {
 }
 
 function precision(a: TrainAnnouncement) {
-  const delay = difference_in_minutes(
-    a.TimeAtLocation,
+  const delay = difference_in_seconds(
+    a.TimeAtLocationWithSeconds,
     a.AdvertisedTimeAtLocation
   );
 
-  return delay === 1
-    ? "nästan i tid"
-    : delay > 0
-    ? `${delay} minuter försenat`
-    : delay < -1
-    ? "i god tid"
-    : "i tid";
+  return delay > 30 ? `${delay}s sent` : delay < -60 ? "i god tid" : "i tid";
 }
 
 function activity(a: TrainAnnouncement) {
