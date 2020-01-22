@@ -9,21 +9,16 @@ export default function branchDivider(train: Actual): string {
 
   return north > 59.36 ? n() : s();
 
-
   function n() {
-    return north > 59.64
-      ? "ne"
-      : north > 59.407
-      ? `n${leftRight(17.84)}`
-      : `n${leftRight(18)}`;
+    if (north > 59.64) return "ne";
+    if (north > 59.407) return `n${leftRight(17.84)}`;
+    return `n${leftRight(18)}`;
   }
 
   function s() {
-    return north < 59.17
-        ? `s${leftRight(17.84)}`
-        : north < 59.27
-            ? `s${leftRight(18)}`
-            : "c";
+    if (north < 59.17) return `s${leftRight(17.84)}`;
+    if (north < 59.27) return `s${leftRight(18)}`;
+    return "c";
   }
 
   function leftRight(limit: number) {
