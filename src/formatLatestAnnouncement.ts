@@ -47,7 +47,10 @@ function precision(a: TrainAnnouncement) {
     a.AdvertisedTimeAtLocation
   );
 
-  return delay > 30 ? `${delay}s sent` : delay < -60 ? "i god tid" : "i tid";
+  if (delay > 240) return `${Math.trunc(delay / 60)} minuter sent`;
+  if (delay > 30) return `${delay}s sent`;
+  if (delay < -60) return "i god tid";
+  return "i tid";
 }
 
 function activity(a: TrainAnnouncement) {
