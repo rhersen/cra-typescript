@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "lodash";
 import { line1, line2 } from "./formatLatestAnnouncement";
-import { color } from "./color";
+import color from "./color";
 import { Actual } from "./currentTrains";
 
 export default function Branch(props: {

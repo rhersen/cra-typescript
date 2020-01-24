@@ -1,17 +1,24 @@
 import TrainAnnouncement from "./TrainAnnouncement";
 import difference_in_minutes from "date-fns/difference_in_minutes";
 
-export function color(a: TrainAnnouncement): string {
+export default function color(a: TrainAnnouncement): string {
   const delay = minutes();
-  return delay < 1
-    ? "#0f0"
-    : delay < 2
-    ? "#fff"
-    : delay < 4
-    ? "#ff0"
-    : delay < 8
-    ? "#f80"
-    : "#f00";
+
+  return `rgb(${r(delay)},${g(delay)},${b(delay)})`;
+
+  function r(d: number) {
+    return d < 1 ? 0 : 256;
+  }
+
+  function g(d: number) {
+    if (d < 4) return 256;
+    if (d < 8) return 128;
+    return 0;
+  }
+
+  function b(d: number) {
+    return d === 1 ? 256 : 0;
+  }
 
   function minutes() {
     return difference_in_minutes(a.TimeAtLocation, a.AdvertisedTimeAtLocation);
