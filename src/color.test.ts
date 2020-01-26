@@ -28,6 +28,7 @@ function a(t: string): TrainAnnouncement {
   // @ts-ignore
   return {
     AdvertisedTimeAtLocation: "2020-01-23T07:03:00.000+01:00",
-    TimeAtLocation: `2020-01-23T${t}.000+01:00`
+    TimeAtLocation: `2020-01-23T${t}.000+01:00`,
+    TimeAtLocationWithSeconds: `2020-01-23T${t}.000+01:00`
   };
 }
