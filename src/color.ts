@@ -7,7 +7,7 @@ export default function color(a: TrainAnnouncement): string {
   return `rgb(${r(delay)},${g(delay)},${b(delay)})`;
 
   function r(d: number) {
-    return d < 60 ? 0 : 256;
+    return d < 60 ? (d * 256) / 60 : 256;
   }
 
   function g(d: number) {
@@ -17,10 +17,10 @@ export default function color(a: TrainAnnouncement): string {
   }
 
   function b(d: number) {
-    return d === 60 ? 256 : 0;
+    return d <= 60 ? (d * 256) / 60 : 0;
   }
 
   function seconds() {
-    return difference_in_seconds(a.TimeAtLocation, a.AdvertisedTimeAtLocation);
+    return difference_in_seconds(a.TimeAtLocationWithSeconds, a.AdvertisedTimeAtLocation);
   }
 }

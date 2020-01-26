@@ -5,6 +5,9 @@ describe("color", () => {
   it("no delay", () =>
     expect(color(a("07:03:00"))).toEqual("rgb(0,256,0)"));
 
+  it("30 seconds delay", () =>
+    expect(color(a("07:03:30"))).toEqual("rgb(128,256,128)"));
+
   it("1 minute delay", () =>
     expect(color(a("07:04:00"))).toEqual("rgb(256,256,256)"));
 
