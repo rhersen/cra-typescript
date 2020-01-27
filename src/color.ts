@@ -11,7 +11,8 @@ export default function color(a: TrainAnnouncement): string {
   }
 
   function g(d: number) {
-    if (d < 240) return 256;
+    if (d < 120) return 256;
+    if (d < 240) return 128 + ((240 - d) * 128) / 120;
     if (d < 480) return 128;
     return 0;
   }
