@@ -17,10 +17,15 @@ export default function color(a: TrainAnnouncement): string {
   }
 
   function b(d: number) {
-    return d <= 60 ? (d * 256) / 60 : 0;
+    if (d <= 60) return (d * 256) / 60;
+    if (d <= 120) return ((120 - d) * 256) / 60;
+    return 0;
   }
 
   function seconds() {
-    return difference_in_seconds(a.TimeAtLocationWithSeconds, a.AdvertisedTimeAtLocation);
+    return difference_in_seconds(
+      a.TimeAtLocationWithSeconds,
+      a.AdvertisedTimeAtLocation
+    );
   }
 }

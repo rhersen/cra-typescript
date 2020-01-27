@@ -11,6 +11,9 @@ describe("color", () => {
   it("1 minute delay", () =>
     expect(color(a("07:04:00"))).toEqual("rgb(256,256,256)"));
 
+  it("90 seconds delay", () =>
+    expect(color(a("07:04:30"))).toEqual("rgb(256,256,128)"));
+
   it("2 minutes delay", () =>
     expect(color(a("07:05:00"))).toEqual("rgb(256,256,0)"));
 
