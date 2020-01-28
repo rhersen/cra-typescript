@@ -23,8 +23,8 @@ describe("color", () => {
   it("4 minutes delay", () =>
     expect(color(a("07:07:00"))).toEqual("rgb(256,128,0)"));
 
-  // it("6 minutes delay", () =>
-  //   expect(color(a("07:07:00"))).toEqual("rgb(256,64,0)"));
+  it("6 minutes delay", () =>
+    expect(color(a("07:09:00"))).toEqual("rgb(256,64,0)"));
 
   it("8 minutes delay", () =>
     expect(color(a("07:11:00"))).toEqual("rgb(256,0,0)"));
