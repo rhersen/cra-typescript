@@ -1,5 +1,5 @@
 import TrainAnnouncement from "./TrainAnnouncement";
-import difference_in_seconds from "date-fns/difference_in_seconds";
+import { differenceInSeconds, parseISO } from "date-fns";
 
 export default function color(a: TrainAnnouncement): string {
   const delay = seconds();
@@ -26,9 +26,9 @@ export default function color(a: TrainAnnouncement): string {
   }
 
   function seconds() {
-    return difference_in_seconds(
-      a.TimeAtLocationWithSeconds,
-      a.AdvertisedTimeAtLocation
+    return differenceInSeconds(
+      parseISO(a.TimeAtLocationWithSeconds),
+      parseISO(a.AdvertisedTimeAtLocation)
     );
   }
 }

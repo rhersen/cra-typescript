@@ -1,6 +1,6 @@
 import _ from "lodash";
 import locations from "./locations";
-import difference_in_seconds from "date-fns/difference_in_seconds";
+import { differenceInSeconds, parseISO } from "date-fns";
 import { Actual } from "./currentTrains";
 import TrainAnnouncement from "./TrainAnnouncement";
 
@@ -42,9 +42,9 @@ function stationName(locationSignature: string) {
 }
 
 function precision(a: TrainAnnouncement) {
-  const delay = difference_in_seconds(
-    a.TimeAtLocationWithSeconds,
-    a.AdvertisedTimeAtLocation
+  const delay = differenceInSeconds(
+    parseISO(a.TimeAtLocationWithSeconds),
+    parseISO(a.AdvertisedTimeAtLocation)
   );
 
   if (delay > 240) return `${Math.trunc(delay / 60)} minuter sent`;
