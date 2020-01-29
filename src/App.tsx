@@ -1,4 +1,5 @@
 import React from "react";
+import { formatISO, sub } from "date-fns";
 import "./App.css";
 import * as grid from "./grid";
 import TrainAnnouncement from "./TrainAnnouncement";
@@ -35,7 +36,11 @@ export default class App extends React.Component<{}, MyState> {
         loaded: ""
       });
 
-      fetch(`/.netlify/functions/announcements?direction=${direction}`)
+      const since = formatISO(sub(new Date(), { minutes: 12 })).substr(0, 19);
+
+      fetch(
+        `/.netlify/functions/announcements?direction=${direction}&since=${since}`
+      )
         .then(response => response.json())
         .then(json => {
           const response = json.TrainAnnouncement;

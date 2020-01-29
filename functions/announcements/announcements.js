@@ -35,7 +35,7 @@ exports.handler = async function({ queryStringParameters }) {
   }
 };
 
-function getBody({ direction }) {
+function getBody({ direction, since }) {
   return `
 <REQUEST>
   <LOGIN authenticationkey='${process.env.TRAFIKVERKET_API_KEY}' />
@@ -45,8 +45,7 @@ function getBody({ direction }) {
         <LIKE name='AdvertisedTrainIdent' value='/[${
           direction === "n" ? "02468" : "13579"
         }]$/' />
-        <GT name='TimeAtLocation' value='$dateadd(-0.0:12)' />
-        <LT name='TimeAtLocation' value='$dateadd(0.0:12)' />
+        <GT name='TimeAtLocation' value='${since}' />
       </FILTER>
       <INCLUDE>ActivityType</INCLUDE>
       <INCLUDE>AdvertisedTrainIdent</INCLUDE>
