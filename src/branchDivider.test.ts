@@ -22,6 +22,27 @@ describe("branchDivider", () => {
       })
     ).toEqual("nw"));
 
+  it("Huvudsta", () =>
+    expect(
+      branchDivider({
+        actual: a({ LocationSignature: "Huv" })
+      })
+    ).toEqual("nw"));
+
+  it("Tomteboda", () =>
+    expect(
+      branchDivider({
+        actual: a({ LocationSignature: "Tmö" })
+      })
+    ).toEqual("c"));
+
+  it("Ulriksdal", () =>
+    expect(
+      branchDivider({
+        actual: a({ LocationSignature: "Udl" })
+      })
+    ).toEqual("ne"));
+
   it("c", () =>
     expect(
       branchDivider({
