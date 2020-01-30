@@ -15,13 +15,34 @@ export default function currentTrains(
     "actual"
   );
   const sorted: Actual[] = sortTrains(object, direction(announcement));
-  return _.reject(sorted, hasArrivedAtDestination);
+  return _.filter(_.reject(sorted, hasArrivedAtDestination), isPendel);
 
   function announcementsToObject(v: TrainAnnouncement[]): Actual {
     const actual = _.maxBy(
-      _.filter(v, "TimeAtLocationWithSeconds"),
+      v,
       a => a.TimeAtLocationWithSeconds + a.ActivityType
     );
+
+    if (!actual) return { actual: undefined };
+
+    const found1 = _.find(v, "ProductInformation");
+    const found2 = _.find(v, "ToLocation");
+
+    const withProductInformation =
+      !actual.ProductInformation && found1
+        ? found1.ProductInformation
+        : actual.ProductInformation;
+    const withToLocation =
+      !actual.ToLocation && found2 ? found2.ToLocation : actual.ToLocation;
+
+    if (withProductInformation && withToLocation)
+      return {
+        actual: {
+          ...actual,
+          ProductInformation: withProductInformation,
+          ToLocation: withToLocation
+        }
+      };
 
     return { actual };
   }
@@ -39,6 +60,14 @@ export default function currentTrains(
     return (
       _.map(actual.ToLocation, "LocationName").join() ===
       actual.LocationSignature
+    );
+  }
+
+  function isPendel(train: Actual): boolean {
+    if (!train.actual) return false;
+    return (
+      train.actual.ProductInformation &&
+      train.actual.ProductInformation.length === 2
     );
   }
 
