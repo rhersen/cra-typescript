@@ -10,41 +10,36 @@ export default function currentTrains(
   announcement: TrainAnnouncement[]
 ): Actual[] {
   const grouped = _.groupBy(announcement, "AdvertisedTrainIdent");
-  const object: Actual[] = _.filter(
-    _.map(grouped, announcementsToObject),
-    "actual"
-  );
-  const sorted: Actual[] = sortTrains(object, direction(announcement));
+  const includingUndefineds: Actual[] = _.map(grouped, selectLatest);
+  const noUndefineds: Actual[] = _.filter(includingUndefineds, "actual");
+  const sorted: Actual[] = sortTrains(noUndefineds, direction(announcement));
   return _.filter(_.reject(sorted, hasArrivedAtDestination), isPendel);
 
-  function announcementsToObject(v: TrainAnnouncement[]): Actual {
-    const actual = _.maxBy(
-      v,
-      a => a.TimeAtLocationWithSeconds + a.ActivityType
+  function selectLatest(
+    trainAnnouncements: TrainAnnouncement[]
+  ): Actual {
+    const latest: TrainAnnouncement | undefined = _.maxBy(
+      trainAnnouncements,
+      (trainAnnouncement: TrainAnnouncement) =>
+        trainAnnouncement.TimeAtLocationWithSeconds +
+        trainAnnouncement.ActivityType
     );
 
-    if (!actual) return { actual: undefined };
+    if (!latest) return { actual: undefined };
 
-    const found1 = _.find(v, "ProductInformation");
-    const found2 = _.find(v, "ToLocation");
+    if (!latest.ProductInformation) {
+      const found = _.find(trainAnnouncements, "ProductInformation");
+      if (found)
+        return {
+          actual: {
+            ...latest,
+            ProductInformation: found.ProductInformation,
+            ToLocation: found.ToLocation
+          }
+        };
+    }
 
-    const withProductInformation =
-      !actual.ProductInformation && found1
-        ? found1.ProductInformation
-        : actual.ProductInformation;
-    const withToLocation =
-      !actual.ToLocation && found2 ? found2.ToLocation : actual.ToLocation;
-
-    if (withProductInformation && withToLocation)
-      return {
-        actual: {
-          ...actual,
-          ProductInformation: withProductInformation,
-          ToLocation: withToLocation
-        }
-      };
-
-    return { actual };
+    return { actual: latest };
   }
 
   function direction(announcements: TrainAnnouncement[]) {
