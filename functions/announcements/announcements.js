@@ -39,7 +39,7 @@ function getBody({ direction, since }) {
   return `
 <REQUEST>
   <LOGIN authenticationkey='${process.env.TRAFIKVERKET_API_KEY}' />
-    <QUERY sseurl='false' objecttype='TrainAnnouncement' orderby='TimeAtLocationWithSeconds' schemaversion='1.6'>
+    <QUERY sseurl='true' objecttype='TrainAnnouncement' orderby='TimeAtLocationWithSeconds' schemaversion='1.6'>
       <FILTER>
          <IN name='LocationSignature' value='Äs,Åbe,Sst,Sci,Sod,Tmö,So,Kmy,Udl,Hel,Sol,Hgv,Nvk,R,Upv,Skby,Rs,Bra,Mr,Rön,Gau,Södy,Tu,Uts,Tul,Flb,Hu,Sta,Hfa,Ts,Kda,Vhe,Jbo,Hnd,Vga,Skg,Tåd,Fas,Hön,Huv,Sub,Duo,Spå,Bkb,Jkb,Khä' />
         <LIKE name='AdvertisedTrainIdent' value='/[${

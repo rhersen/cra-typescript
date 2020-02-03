@@ -49,6 +49,25 @@ export default class App extends React.Component<{}, MyState> {
             loaded: direction,
             clicked: ""
           });
+
+          if (json.INFO) {
+            if (eventSource) eventSource.close();
+            eventSource = new EventSource(json.INFO.SSEURL);
+            eventSource.onmessage = event => {
+              const parsed = JSON.parse(event.data);
+              const trainAnnouncements =
+                parsed.RESPONSE.RESULT[0].TrainAnnouncement;
+              this.setState((oldState: MyState) => {
+                const newArray: TrainAnnouncement[] = [];
+                return {
+                  response: newArray.concat(
+                    oldState.response,
+                    trainAnnouncements
+                  )
+                };
+              });
+            };
+          }
         });
     };
   }
