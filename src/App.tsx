@@ -43,7 +43,7 @@ export default class App extends React.Component<{}, MyState> {
       )
         .then(response => response.json())
         .then(json => {
-          const response = json.TrainAnnouncement;
+          const response: TrainAnnouncement[] = json.TrainAnnouncement;
           this.setState({
             response,
             loaded: direction,
@@ -52,24 +52,24 @@ export default class App extends React.Component<{}, MyState> {
 
           if (json.INFO) {
             if (eventSource) eventSource.close();
-            eventSource = new EventSource(json.INFO.SSEURL);
-            eventSource.onmessage = event => {
-              const parsed = JSON.parse(event.data);
-              const trainAnnouncements =
-                parsed.RESPONSE.RESULT[0].TrainAnnouncement;
-              this.setState((oldState: MyState) => {
-                const newArray: TrainAnnouncement[] = [];
-                return {
-                  response: newArray.concat(
-                    oldState.response,
-                    trainAnnouncements
-                  )
-                };
-              });
-            };
+            eventSource = this.getEventSource(json.INFO.SSEURL);
           }
         });
     };
+  }
+
+  private getEventSource(sseUrl: string): EventSource {
+    const eventSource1 = new EventSource(sseUrl);
+    eventSource1.onmessage = event => {
+      const parsed = JSON.parse(event.data);
+      const trainAnnouncements = parsed.RESPONSE.RESULT[0].TrainAnnouncement;
+      this.setState((oldState: MyState) => {
+        return {
+          response: oldState.response.concat(trainAnnouncements)
+        };
+      });
+    };
+    return eventSource1;
   }
 
   render() {
