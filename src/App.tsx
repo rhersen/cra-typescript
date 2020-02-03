@@ -5,13 +5,12 @@ import * as grid from "./grid";
 import TrainAnnouncement from "./TrainAnnouncement";
 import Trains from "./Trains";
 
-let eventSource: EventSource | null = null;
-
 type MyState = {
   response: TrainAnnouncement[];
   msg: string;
   loaded: string;
   clicked: string;
+  eventSource: EventSource | null;
 };
 
 export default class App extends React.Component<{}, MyState> {
@@ -19,13 +18,14 @@ export default class App extends React.Component<{}, MyState> {
     response: [],
     msg: "",
     loaded: "",
-    clicked: ""
+    clicked: "",
+    eventSource: null
   };
 
   componentWillUnmount() {
-    if (eventSource) {
-      eventSource.close();
-      eventSource = null;
+    if (this.state.eventSource) {
+      this.state.eventSource.close();
+      this.setState({ eventSource: null });
     }
   }
 
@@ -51,16 +51,18 @@ export default class App extends React.Component<{}, MyState> {
           });
 
           if (json.INFO) {
-            if (eventSource) eventSource.close();
-            eventSource = this.getEventSource(json.INFO.SSEURL);
+            if (this.state.eventSource) this.state.eventSource.close();
+            this.setState({
+              eventSource: this.getEventSource(json.INFO.SSEURL)
+            });
           }
         });
     };
   }
 
   private getEventSource(sseUrl: string): EventSource {
-    const eventSource1 = new EventSource(sseUrl);
-    eventSource1.onmessage = event => {
+    const eventSource = new EventSource(sseUrl);
+    eventSource.onmessage = event => {
       const parsed = JSON.parse(event.data);
       const trainAnnouncements = parsed.RESPONSE.RESULT[0].TrainAnnouncement;
       this.setState((oldState: MyState) => {
@@ -69,7 +71,7 @@ export default class App extends React.Component<{}, MyState> {
         };
       });
     };
-    return eventSource1;
+    return eventSource;
   }
 
   render() {
