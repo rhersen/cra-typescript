@@ -91,6 +91,21 @@ export default class App extends React.Component<{}, MyState> {
           fill="#f5f5f5"
           onClick={this.getCurrent("s")}
         />
+        {this.state.eventSource ? (
+          <polygon
+            points={grid.square()}
+            stroke="#005CFF"
+            fill="#f00"
+            onClick={() => {
+              if (this.state.eventSource) {
+                this.state.eventSource.close();
+                this.setState({ eventSource: null });
+              }
+            }}
+          />
+        ) : (
+          undefined
+        )}
         {this.state.response && (
           <g>
             <Trains response={this.state.response} />
