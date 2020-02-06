@@ -1,5 +1,5 @@
 import React from "react";
-import { formatISO, sub } from "date-fns";
+import { differenceInSeconds, formatISO, sub } from "date-fns";
 import "./App.css";
 import * as grid from "./grid";
 import TrainAnnouncement from "./TrainAnnouncement";
@@ -11,6 +11,7 @@ type MyState = {
   loaded: string;
   clicked: string;
   eventSource: EventSource | null;
+  eventSourceStarted: Date | null;
 };
 
 export default class App extends React.Component<{}, MyState> {
@@ -19,13 +20,14 @@ export default class App extends React.Component<{}, MyState> {
     msg: "",
     loaded: "",
     clicked: "",
-    eventSource: null
+    eventSource: null,
+    eventSourceStarted: null
   };
 
   componentWillUnmount() {
     if (this.state.eventSource) {
       this.state.eventSource.close();
-      this.setState({ eventSource: null });
+      this.setState({ eventSource: null, eventSourceStarted: null });
     }
   }
 
@@ -53,7 +55,8 @@ export default class App extends React.Component<{}, MyState> {
           if (json.INFO) {
             if (this.state.eventSource) this.state.eventSource.close();
             this.setState({
-              eventSource: this.getEventSource(json.INFO.SSEURL)
+              eventSource: this.getEventSource(json.INFO.SSEURL),
+              eventSourceStarted: new Date()
             });
           }
         });
@@ -66,9 +69,17 @@ export default class App extends React.Component<{}, MyState> {
       const parsed = JSON.parse(event.data);
       const trainAnnouncements = parsed.RESPONSE.RESULT[0].TrainAnnouncement;
       this.setState((oldState: MyState) => {
-        return {
-          response: oldState.response.concat(trainAnnouncements)
-        };
+        const response = oldState.response.concat(trainAnnouncements);
+        const age = eventSourceAge(oldState.eventSourceStarted);
+        if (age > 600 && this.state.eventSource) {
+          this.state.eventSource.close();
+          return {
+            response,
+            eventSource: null,
+            eventSourceStarted: null
+          } as MyState;
+        }
+        return { response } as MyState;
       });
     };
     return eventSource;
@@ -99,7 +110,7 @@ export default class App extends React.Component<{}, MyState> {
             onClick={() => {
               if (this.state.eventSource) {
                 this.state.eventSource.close();
-                this.setState({ eventSource: null });
+                this.setState({ eventSource: null, eventSourceStarted: null });
               }
             }}
           />
@@ -120,4 +131,8 @@ export default class App extends React.Component<{}, MyState> {
       ? "clicked"
       : "idle";
   }
+}
+
+function eventSourceAge(eventSourceStarted: Date | null) {
+  return differenceInSeconds(new Date(), eventSourceStarted || new Date(0));
 }

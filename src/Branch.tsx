@@ -18,9 +18,10 @@ export default function Branch(props: {
       new Date(),
       parseISO(train.actual.TimeAtLocationWithSeconds)
     );
+    const className = secondsAgo < 30 ? "new" : "old";
     return [
       <tspan
-        className={secondsAgo < 30 ? "new" : "old"}
+        className={className}
         x="0.05"
         dy={fontSize * dy(props.trains.length)}
         fill={color(train.actual)}
@@ -29,6 +30,7 @@ export default function Branch(props: {
         {line1(train)}
       </tspan>,
       <tspan
+        className={className}
         x="0.05"
         dy={fontSize}
         fill={color(train.actual)}
