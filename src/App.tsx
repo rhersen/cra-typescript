@@ -103,9 +103,7 @@ export default class App extends React.Component<{}, MyState> {
               }
             }}
           />
-        ) : (
-          undefined
-        )}
+        ) : null}
         {this.state.response && (
           <g>
             <Trains response={this.state.response} />

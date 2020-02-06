@@ -67,6 +67,10 @@ text.train {
   font-family: Arial Narrow, Arial, sans-serif;
 }
 
+tspan.new {
+  font-weight: bold;
+}
+
 rect.branch {
   fill: #222;
   stroke: red;

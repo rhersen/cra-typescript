@@ -3,6 +3,7 @@ import _ from "lodash";
 import { line1, line2 } from "./formatLatestAnnouncement";
 import color from "./color";
 import { Actual } from "./currentTrains";
+import { differenceInSeconds, parseISO } from "date-fns";
 
 export default function Branch(props: {
   trains: Actual[];
@@ -13,9 +14,13 @@ export default function Branch(props: {
 
   const trainText = (train: Actual) => {
     if (!train.actual) return undefined;
-
+    const secondsAgo = differenceInSeconds(
+      new Date(),
+      parseISO(train.actual.TimeAtLocationWithSeconds)
+    );
     return [
       <tspan
+        className={secondsAgo < 30 ? "new" : "old"}
         x="0.05"
         dy={fontSize * dy(props.trains.length)}
         fill={color(train.actual)}
