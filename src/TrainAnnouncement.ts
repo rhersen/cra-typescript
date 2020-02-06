@@ -32,7 +32,7 @@ interface Location {
   Order: number;
 }
 
-interface Description {
+export interface Description {
   Code: string;
   Description: string;
 }

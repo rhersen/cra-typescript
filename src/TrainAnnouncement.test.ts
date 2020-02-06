@@ -1,43 +1,55 @@
 import TrainAnnouncement, {
+  Description,
   deviationText,
   shortText
 } from "./TrainAnnouncement";
 
 describe("deviationText", () => {
-  it("handles undefined", () => expect(deviationText(a({}))).toEqual([]));
+  it("handles undefined", () =>
+    expect(deviationText({} as TrainAnnouncement)).toEqual([]));
 
-  it("handles empty array", () =>
-    expect(deviationText(a({ Deviation: [] }))).toEqual([]));
+  it("handles empty array", () => {
+    const announcement = {
+      Deviation: [] as Description[]
+    } as TrainAnnouncement;
+    expect(deviationText(announcement)).toEqual([]);
+  });
 
-  it("handles single-element array", () =>
-    expect(
-      deviationText(a({ Deviation: [{ Description: "Plattformsbyte" }] }))
-    ).toEqual(["Plattformsbyte"]));
+  it("handles single-element array", () => {
+    const announcement = {
+      Deviation: [{ Description: "Plattformsbyte" }]
+    } as TrainAnnouncement;
+    expect(deviationText(announcement)).toEqual(["Plattformsbyte"]);
+  });
 
   it("ignores short-train deviation", () =>
     expect(
-      deviationText(a({ Deviation: [{ Description: "Kort tåg" }] }))
+      deviationText({
+        Deviation: [{ Description: "Kort tåg" }]
+      } as TrainAnnouncement)
     ).toEqual([]));
 });
 
 describe("shortText", () => {
-  it("handles undefined", () => expect(shortText(a({}))).toBe(""));
+  it("handles undefined", () =>
+    expect(shortText({} as TrainAnnouncement)).toBe(""));
 
   it("handles empty array", () =>
-    expect(shortText(a({ Deviation: [] }))).toBe(""));
+    expect(
+      shortText({ Deviation: [] as Description[] } as TrainAnnouncement)
+    ).toBe(""));
 
   it("shows K for short-train deviation", () =>
-    expect(shortText(a({ Deviation: [{ Description: "Kort tåg" }] }))).toEqual(
-      "K"
-    ));
+    expect(
+      shortText({
+        Deviation: [{ Description: "Kort tåg" }]
+      } as TrainAnnouncement)
+    ).toEqual("K"));
 
   it("shows * for other deviations", () =>
     expect(
-      shortText(a({ Deviation: [{ Description: "Plattformsbyte" }] }))
+      shortText({
+        Deviation: [{ Description: "Plattformsbyte" }]
+      } as TrainAnnouncement)
     ).toEqual("*"));
 });
-
-function a(obj: {}): TrainAnnouncement {
-  // @ts-ignore
-  return obj;
-}
