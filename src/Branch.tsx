@@ -42,7 +42,7 @@ export default function Branch(props: {
   };
   return (
     <g className={`pos-${props.position}`}>
-      <rect className="branch" x="0" y="0" height="4" width="4" />
+      <rect className="branch" x="0" y="0" height="5" width="4" />
       <text className="train" style={{ fontSize: fontSize }}>
         {_.map(props.trains, trainText)}
       </text>
@@ -52,8 +52,8 @@ export default function Branch(props: {
 
 const dyValues = [
   undefined,
-  6,
-  (4 * (4 - 1.2)) / 3,
+  8,
+  (4 * (5 - 1.2)) / 3,
   undefined,
   undefined,
   1.5,
@@ -64,6 +64,6 @@ const dyValues = [
 function dy(l: number) {
   const dyValue = dyValues[l];
   if (dyValue) return dyValue;
-  if (l === 3) return (4 * (4 - 1.2)) / (l + 1);
-  return (4 * (4 - 1.2)) / (l + 1);
+  if (l === 3) return (4 * (5 - 1.2)) / (l + 1);
+  return (4 * (5 - 1.2)) / (l + 1);
 }

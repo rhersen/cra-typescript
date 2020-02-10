@@ -90,7 +90,7 @@ export default class App extends React.Component<{}, MyState> {
 
   render() {
     return (
-      <svg viewBox="-4 -6 8 12">
+      <svg viewBox="-4 -7.5 8 15">
         <polygon
           className={this.arrowClass("n")}
           points={grid.leftTriangle()}

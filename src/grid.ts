@@ -1,9 +1,9 @@
 export function leftTriangle() {
-  return "-3,-2 -2,2 -4,2";
+  return "-3,-2.5 -2,2.5 -4,2.5";
 }
 
 export function rightTriangle() {
-  return "3,2 2,-2 4,-2";
+  return "3,2.5 2,-2.5 4,-2.5";
 }
 
 export function square() {
