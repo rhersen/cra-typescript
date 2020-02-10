@@ -70,7 +70,10 @@ export default class App extends React.Component<{}, MyState> {
       const trainAnnouncements = parsed.RESPONSE.RESULT[0].TrainAnnouncement;
       this.setState((oldState: MyState) => {
         const response = oldState.response.concat(trainAnnouncements);
-        const age = eventSourceAge(oldState.eventSourceStarted);
+        const age = differenceInSeconds(
+          new Date(),
+          oldState.eventSourceStarted || new Date(0)
+        );
         if (age > 600 && this.state.eventSource) {
           this.state.eventSource.close();
           return {
@@ -131,8 +134,4 @@ export default class App extends React.Component<{}, MyState> {
       ? "clicked"
       : "idle";
   }
-}
-
-function eventSourceAge(eventSourceStarted: Date | null) {
-  return differenceInSeconds(new Date(), eventSourceStarted || new Date(0));
 }

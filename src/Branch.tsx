@@ -25,7 +25,7 @@ export default function Branch(props: {
         x="0.05"
         dy={fontSize * dy(props.trains.length)}
         fill={color(train.actual)}
-        key={train.actual.AdvertisedTrainIdent + 1}
+        key={`${train.actual.AdvertisedTrainIdent}l1`}
       >
         {line1(train)}
       </tspan>,
@@ -34,7 +34,7 @@ export default function Branch(props: {
         x="0.05"
         dy={fontSize}
         fill={color(train.actual)}
-        key={train.actual.AdvertisedTrainIdent + 2}
+        key={`${train.actual.AdvertisedTrainIdent}l2`}
       >
         {line2(train)}
       </tspan>
