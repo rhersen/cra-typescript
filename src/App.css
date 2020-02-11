@@ -44,23 +44,23 @@ g {
 }
 
 g.pos-nw {
-  transform: translate(-4px, -7.5px);
+  transform: translate(-4px, -6px);
 }
 
 g.pos-ne {
-  transform: translate(0, -7.5px);
+  transform: translate(0, -6px);
 }
 
 g.pos-sw {
-  transform: translate(-4px, 2.5px);
+  transform: translate(-4px, 2px);
 }
 
 g.pos-se {
-  transform: translate(0, 2.5px);
+  transform: translate(0, 2px);
 }
 
 g.pos-c {
-  transform: translate(-2px, -2.5px);
+  transform: translate(-2px, -2px);
 }
 
 text.train {
