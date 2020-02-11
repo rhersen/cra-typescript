@@ -38,7 +38,7 @@ export default class App extends React.Component<{}, MyState> {
         loaded: ""
       });
 
-      const since = formatISO(sub(new Date(), { minutes: 4 })).substr(0, 19);
+      const since = formatISO(sub(new Date(), { minutes: 8 })).substr(0, 19);
 
       fetch(
         `/.netlify/functions/announcements?direction=${direction}&since=${since}`
