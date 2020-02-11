@@ -118,11 +118,7 @@ export default class App extends React.Component<{}, MyState> {
             }}
           />
         ) : null}
-        {this.state.response && (
-          <g>
-            <Trains response={this.state.response} />
-          </g>
-        )}
+        {this.state.response && <Trains response={this.state.response} />}
       </svg>
     );
   }

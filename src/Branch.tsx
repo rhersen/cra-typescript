@@ -64,6 +64,5 @@ const dyValues = [
 function dy(l: number) {
   const dyValue = dyValues[l];
   if (dyValue) return dyValue;
-  if (l === 3) return (4 * (4 - 1.2)) / (l + 1);
   return (4 * (4 - 1.2)) / (l + 1);
 }
