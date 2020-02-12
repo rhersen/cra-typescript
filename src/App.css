@@ -18,29 +18,18 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 polygon {
   stroke-width: 0.02;
 }
 
-polygon.clicked {
+.clicked {
   fill: gray;
+  background-color: gray;
 }
 
-polygon.loaded {
+.loaded {
   fill: hsl(240, 100%, 50%);
-}
-
-g {
-  transition: transform 0.5s;
+  background-color: hsl(240, 100%, 80%);
 }
 
 g.pos-nw {
@@ -75,4 +64,8 @@ rect.branch {
   fill: #222;
   stroke: red;
   stroke-width: 0.02;
+}
+
+svg.branch {
+  width: 170px;
 }

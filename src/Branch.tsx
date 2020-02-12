@@ -7,7 +7,7 @@ import { differenceInSeconds, parseISO } from "date-fns";
 
 export default function Branch(props: {
   trains: Actual[];
-  position: string;
+  position?: string;
   size: string;
 }) {
   const fontSize = 0.3;

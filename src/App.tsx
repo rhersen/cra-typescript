@@ -1,9 +1,11 @@
 import React from "react";
 import { differenceInSeconds, formatISO, sub } from "date-fns";
 import "./App.css";
-import * as grid from "./grid";
 import TrainAnnouncement from "./TrainAnnouncement";
-import Trains from "./Trains";
+import _ from "lodash";
+import currentTrains from "./currentTrains";
+import Branch from "./Branch";
+import branchDivider from "./branchDivider";
 
 type MyState = {
   response: TrainAnnouncement[];
@@ -89,37 +91,51 @@ export default class App extends React.Component<{}, MyState> {
   }
 
   render() {
+    const grouped = _.groupBy(
+      currentTrains(this.state.response),
+      branchDivider
+    );
+
     return (
-      <svg viewBox="-4 -6 8 12">
-        <polygon
-          className={this.arrowClass("n")}
-          points={grid.leftTriangle()}
-          stroke="#005CFF"
-          fill="#f5f5f5"
-          onClick={this.getCurrent("n")}
-        />
-        <polygon
-          className={this.arrowClass("s")}
-          points={grid.rightTriangle()}
-          stroke="#005CFF"
-          fill="#f5f5f5"
-          onClick={this.getCurrent("s")}
-        />
+      <div>
+        <svg viewBox="0 0 4 4" className="branch">
+          <Branch key={"nw"} trains={grouped.nw} size="normal" />
+        </svg>
+        <svg viewBox="0 0 4 4" className="branch">
+          <Branch key={"ne"} trains={grouped.ne} size="normal" />
+        </svg>
+        <span className={this.arrowClass("n")} onClick={this.getCurrent("n")}>
+          north
+        </span>
+        <svg viewBox="0 0 4 4" className="branch">
+          <Branch key={"c"} trains={grouped.c} size="normal" />
+        </svg>
+        <span className={this.arrowClass("s")} onClick={this.getCurrent("s")}>
+          south
+        </span>
         {this.state.eventSource ? (
-          <polygon
-            points={grid.square()}
-            stroke="#005CFF"
-            fill="#f00"
+          <span
             onClick={() => {
               if (this.state.eventSource) {
                 this.state.eventSource.close();
-                this.setState({ eventSource: null, eventSourceStarted: null });
+                this.setState({
+                  eventSource: null,
+                  eventSourceStarted: null
+                });
               }
             }}
-          />
+          >
+            stop
+          </span>
         ) : null}
-        {this.state.response && <Trains response={this.state.response} />}
-      </svg>
+
+        <svg viewBox="0 0 4 4" className="branch">
+          <Branch key={"sw"} trains={grouped.sw} size="normal" />
+        </svg>
+        <svg viewBox="0 0 4 4" className="branch">
+          <Branch key={"se"} trains={grouped.se} size="normal" />
+        </svg>
+      </div>
     );
   }
 
