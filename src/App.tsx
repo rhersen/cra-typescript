@@ -104,30 +104,36 @@ export default class App extends React.Component<{}, MyState> {
         <svg viewBox="0 0 4 4" className="branch">
           <Branch key={"ne"} trains={grouped.ne} size="normal" />
         </svg>
-        <span className={this.arrowClass("n")} onClick={this.getCurrent("n")}>
-          north
-        </span>
-        <svg viewBox="0 0 4 4" className="branch">
-          <Branch key={"c"} trains={grouped.c} size="normal" />
-        </svg>
-        <span className={this.arrowClass("s")} onClick={this.getCurrent("s")}>
-          south
-        </span>
-        {this.state.eventSource ? (
+        <div className="mid-row">
           <span
-            onClick={() => {
-              if (this.state.eventSource) {
-                this.state.eventSource.close();
-                this.setState({
-                  eventSource: null,
-                  eventSourceStarted: null
-                });
-              }
-            }}
-          >
-            stop
-          </span>
-        ) : null}
+            className={`${this.arrowClass("n")} arrow-up`}
+            onClick={this.getCurrent("n")}
+          />
+          <svg viewBox="0 0 4 4" className="branch">
+            <Branch key={"c"} trains={grouped.c} size="normal" />
+          </svg>
+          <div className="right-col">
+            <span
+              className={`${this.arrowClass("s")} arrow-down`}
+              onClick={this.getCurrent("s")}
+            />
+            {this.state.eventSource ? (
+              <span className="stop"
+                onClick={() => {
+                  if (this.state.eventSource) {
+                    this.state.eventSource.close();
+                    this.setState({
+                      eventSource: null,
+                      eventSourceStarted: null
+                    });
+                  }
+                }}
+              >
+                STOP
+              </span>
+            ) : null}
+          </div>
+        </div>
 
         <svg viewBox="0 0 4 4" className="branch">
           <Branch key={"sw"} trains={grouped.sw} size="normal" />

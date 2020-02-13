@@ -22,14 +22,67 @@ polygon {
   stroke-width: 0.02;
 }
 
+.mid-row {
+  display: flex;
+  align-items: center;
+}
+
+.right-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stop {
+  background-color: red;
+  margin: 10px 0;
+  padding: 10px 0;
+  font-weight: bold;
+  color: white;
+}
+
 .clicked {
   fill: gray;
-  background-color: gray;
 }
 
 .loaded {
   fill: hsl(240, 100%, 50%);
-  background-color: hsl(240, 100%, 80%);
+}
+
+:root {
+  --arrow-width: 32px;
+}
+
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: var(--arrow-width) solid transparent;
+  border-right: var(--arrow-width) solid transparent;
+  border-bottom: var(--arrow-width) solid orange;
+}
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: var(--arrow-width) solid transparent;
+  border-right: var(--arrow-width) solid transparent;
+  border-top: var(--arrow-width) solid orange;
+}
+
+.arrow-up.clicked {
+  border-bottom: var(--arrow-width) solid gray;
+}
+
+.arrow-up.loaded {
+  border-bottom: var(--arrow-width) solid hsl(240, 100%, 50%);
+}
+
+.arrow-down.clicked {
+  border-top: var(--arrow-width) solid gray;
+}
+
+.arrow-down.loaded {
+  border-top: var(--arrow-width) solid hsl(240, 100%, 50%);
 }
 
 g.pos-nw {
@@ -67,5 +120,5 @@ rect.branch {
 }
 
 svg.branch {
-  width: 170px;
+  width: 50%;
 }
