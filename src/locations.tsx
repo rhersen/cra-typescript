@@ -2260,7 +2260,7 @@ const raw = {
 let locations: {
   [key: string]: {
     LocationSignature: string;
-    Geometry: { SWEREF99TM: string; WGS84: string };
+    Geometry: { SWEREF99TM?: string; WGS84: string };
     AdvertisedShortLocationName: string;
     east: number;
     north: number;
