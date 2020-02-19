@@ -1,8 +1,8 @@
+import _ from "lodash";
 import React from "react";
 import "./App.css";
-import * as grid from "./grid";
 import TrainAnnouncement from "./TrainAnnouncement";
-import Trains from "./Trains";
+import locations from "./locations";
 
 let eventSource: EventSource | null = null;
 
@@ -39,6 +39,15 @@ export default class App extends React.Component<{}, MyState> {
         .then(response => response.json())
         .then(json => {
           const response = json.TrainAnnouncement;
+
+          if (json.INFO) {
+            if (eventSource) eventSource.close();
+            eventSource = new EventSource(json.INFO.SSEURL);
+            eventSource.onmessage = event => {
+              console.log(event);
+            };
+          }
+
           this.setState({
             response,
             loaded: direction,
@@ -49,36 +58,65 @@ export default class App extends React.Component<{}, MyState> {
   }
 
   render() {
+    const sorted: TrainAnnouncement[] = _.orderBy(
+      this.state.response,
+      "AdvertisedTimeAtLocation"
+    );
+
+    const rowKeys: string[] = _.uniq(_.map(sorted, activityAndLocation));
+    const colKeys: string[] = _.uniq(_.map(sorted, date));
+    const cells: {
+      [key: string]: TrainAnnouncement;
+    } = _.keyBy(
+      sorted,
+      (a: TrainAnnouncement): string => activityAndLocation(a) + date(a)
+    );
+
     return (
-      <svg viewBox="-4 -6 8 12">
-        <polygon
-          className={this.arrowClass("n")}
-          points={grid.leftTriangle()}
-          stroke="#005CFF"
-          fill="#f5f5f5"
-          onClick={this.getCurrent("n")}
-        />
-        <polygon
-          className={this.arrowClass("s")}
-          points={grid.rightTriangle()}
-          stroke="#005CFF"
-          fill="#f5f5f5"
-          onClick={this.getCurrent("s")}
-        />
-        {this.state.response && (
-          <g>
-            <Trains response={this.state.response} />
-          </g>
-        )}
-      </svg>
+      <div>
+        <div onClick={this.getCurrent("n")}>getCurrent</div>
+        <table>
+          <tbody>
+            {_.map(rowKeys, rowKey => {
+              const strings = rowKey.split(":");
+              return (
+                <tr key={rowKey}>
+                  <td>
+                    {strings[0] === "Avgang" ? "" : strings[0]}{" "}
+                    {locations(strings[1]).AdvertisedShortLocationName}
+                  </td>
+                  {_.map(colKeys, colKey => {
+                    const cell = cells[rowKey + colKey];
+                    if (!cell)
+                      return (
+                        <React.Fragment key={colKey}>
+                          <td />
+                          <td />
+                        </React.Fragment>
+                      );
+                    const t = cell.TimeAtLocationWithSeconds;
+                    const a = cell.AdvertisedTimeAtLocation;
+                    return (
+                      <React.Fragment key={colKey}>
+                        <td>{t ? t.substr(11, 8) : "-"}</td>
+                        <td>{a ? a.substr(11, 5) : "-"}</td>
+                      </React.Fragment>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     );
   }
+}
 
-  private arrowClass(direction: string) {
-    return this.state.loaded === direction
-      ? "loaded"
-      : this.state.clicked === direction
-      ? "clicked"
-      : "idle";
-  }
+function activityAndLocation(a: TrainAnnouncement): string {
+  return `${a.ActivityType}:${a.LocationSignature}`;
+}
+
+function date(a: TrainAnnouncement): string {
+  return a.AdvertisedTimeAtLocation.substr(0, 10);
 }

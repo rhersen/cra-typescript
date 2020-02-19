@@ -5,25 +5,34 @@ export default interface TrainAnnouncement {
   AdvertisedTimeAtLocation: string;
   AdvertisedTrainIdent: string;
   Canceled: boolean;
-  Deviation: Description[];
-  EstimatedTimeAtLocation: string;
-  EstimatedTimeIsPreliminary: boolean;
-  FromLocation: Location[];
-  InformationOwner: string;
+  Deviation?: Description[];
+  EstimatedTimeAtLocation?: string;
+  EstimatedTimeIsPreliminary?: boolean;
+  FromLocation?: Location[];
+  InformationOwner?: string;
   LocationSignature: string;
+  MobileWebLink?: string;
   ModifiedTime: string;
-  NewEquipment: number;
-  OtherInformation: Description[];
-  ProductInformation: Description[];
+  NewEquipment?: number;
+  Operator?: string;
+  OtherInformation?: Description[];
+  PlannedEstimatedTimeAtLocationIsValid?: boolean;
+  ProductInformation?: Description[];
   ScheduledDepartureDateTime: string;
+  Service?: Description[];
+  TechnicalDateTime?: string;
   TechnicalTrainIdent: string;
-  TimeAtLocation: string;
-  TimeAtLocationWithSeconds: string;
-  ToLocation: Location[];
-  TrackAtLocation: string;
-  TypeOfTraffic: Description;
-  ViaToLocation: Location[];
-  WebLink: string;
+  TimeAtLocation?: string;
+  TimeAtLocationWithSeconds?: string;
+  ToLocation?: Location[];
+  TrackAtLocation?: string;
+  TrainComposition?: Description[];
+  TrainOwner: string;
+  TypeOfTraffic?: Description[];
+  ViaFromLocation?: Location[];
+  ViaToLocation?: Location[];
+  WebLink?: string;
+  WebLinkName?: string;
 }
 
 interface Location {
@@ -41,20 +50,20 @@ export function shortText(announcement: TrainAnnouncement): string {
   const deviations: string[] = (announcement.Deviation || []).map(descriptions);
 
   return deviations
-    ? deviations
-        .map(s => {
-          if (/Kort/.test(s)) return "K";
-          if (s.length) return "*";
-          return s;
-        })
-        .join()
-    : "";
+      ? deviations
+          .map(s => {
+            if (/Kort/.test(s)) return "K";
+            if (s.length) return "*";
+            return s;
+          })
+          .join()
+      : "";
 }
 
 export function deviationText(announcement: TrainAnnouncement): string[] {
   return (announcement.Deviation || [])
-    .map(descriptions)
-    .filter(s => !/Kort/.test(s));
+      .map(descriptions)
+      .filter(s => !/Kort/.test(s));
 }
 
 function descriptions(deviation: Description): string {
@@ -63,8 +72,8 @@ function descriptions(deviation: Description): string {
 
 export function key(announcement: TrainAnnouncement) {
   return (
-    announcement.ActivityType.substr(1, 1) +
-    announcement.AdvertisedTrainIdent +
-    announcement.LocationSignature
+      announcement.ActivityType.substr(1, 1) +
+      announcement.AdvertisedTrainIdent +
+      announcement.LocationSignature
   );
 }

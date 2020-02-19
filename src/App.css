@@ -63,8 +63,14 @@ g.pos-c {
   transform: translate(-2px, -2px);
 }
 
-text.train {
-  font-family: Arial Narrow, Arial, sans-serif;
+td {
+  font-family: Arial, sans-serif;
+  border: 1px solid;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 rect.branch {

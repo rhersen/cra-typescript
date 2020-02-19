@@ -39,14 +39,9 @@ function getBody({ direction }) {
   return `
 <REQUEST>
   <LOGIN authenticationkey='${process.env.TRAFIKVERKET_API_KEY}' />
-    <QUERY sseurl='false' objecttype='TrainAnnouncement' orderby='TimeAtLocationWithSeconds' schemaversion='1.6'>
+    <QUERY sseurl='true' objecttype='TrainAnnouncement' orderby='TimeAtLocationWithSeconds' schemaversion='1.6'>
       <FILTER>
-        <EQ name='Operator' value='SLL' />
-        <LIKE name='AdvertisedTrainIdent' value='/[${
-          direction === "n" ? "02468" : "13579"
-        }]$/' />
-        <GT name='TimeAtLocation' value='$dateadd(-0.0:12)' />
-        <LT name='TimeAtLocation' value='$dateadd(0.0:12)' />
+        <EQ name='AdvertisedTrainIdent' value='10465'/>
       </FILTER>
       <INCLUDE>ActivityType</INCLUDE>
       <INCLUDE>AdvertisedTrainIdent</INCLUDE>
