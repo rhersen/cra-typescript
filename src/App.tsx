@@ -98,27 +98,22 @@ export default class App extends React.Component<{}, MyState> {
 
     return (
       <div>
-        <svg viewBox="0 0 4 4" className="branch">
-          <Branch key={"nw"} trains={grouped.nw} size="normal" />
-        </svg>
-        <svg viewBox="0 0 4 4" className="branch">
-          <Branch key={"ne"} trains={grouped.ne} size="normal" />
-        </svg>
+        <Branch key={"nw"} trains={grouped.nw} size="normal" />
+        <Branch key={"ne"} trains={grouped.ne} size="normal" />
         <div className="mid-row">
           <span
             className={`${this.arrowClass("n")} arrow-up`}
             onClick={this.getCurrent("n")}
           />
-          <svg viewBox="0 0 4 4" className="branch">
-            <Branch key={"c"} trains={grouped.c} size="normal" />
-          </svg>
+          <Branch key={"c"} trains={grouped.c} size="normal" />
           <div className="right-col">
             <span
               className={`${this.arrowClass("s")} arrow-down`}
               onClick={this.getCurrent("s")}
             />
             {this.state.eventSource ? (
-              <span className="stop"
+              <span
+                className="stop"
                 onClick={() => {
                   if (this.state.eventSource) {
                     this.state.eventSource.close();
@@ -134,13 +129,8 @@ export default class App extends React.Component<{}, MyState> {
             ) : null}
           </div>
         </div>
-
-        <svg viewBox="0 0 4 4" className="branch">
-          <Branch key={"sw"} trains={grouped.sw} size="normal" />
-        </svg>
-        <svg viewBox="0 0 4 4" className="branch">
-          <Branch key={"se"} trains={grouped.se} size="normal" />
-        </svg>
+        <Branch key={"sw"} trains={grouped.sw} size="normal" />
+        <Branch key={"se"} trains={grouped.se} size="normal" />
       </div>
     );
   }

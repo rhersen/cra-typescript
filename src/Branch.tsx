@@ -41,12 +41,14 @@ export default function Branch(props: {
     ];
   };
   return (
-    <g className={`pos-${props.position}`}>
-      <rect className="branch" x="0" y="0" height="4" width="4" />
-      <text className="train" style={{ fontSize: fontSize }}>
-        {_.map(props.trains, trainText)}
-      </text>
-    </g>
+    <svg viewBox="0 0 4 4" className="branch">
+      <g className={`pos-${props.position}`}>
+        <rect className="branch" x="0" y="0" height="4" width="4" />
+        <text className="train" style={{ fontSize: fontSize }}>
+          {_.map(props.trains, trainText)}
+        </text>
+      </g>
+    </svg>
   );
 }
 
