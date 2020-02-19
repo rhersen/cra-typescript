@@ -98,8 +98,10 @@ export default class App extends React.Component<{}, MyState> {
 
     return (
       <div>
-        <Branch key={"nw"} trains={grouped.nw} size="normal" />
-        <Branch key={"ne"} trains={grouped.ne} size="normal" />
+        <div className="row">
+          <Branch key={"nw"} trains={grouped.nw} size="normal" />
+          <Branch key={"ne"} trains={grouped.ne} size="normal" />
+        </div>
         <div className="mid-row">
           <span
             className={`${this.arrowClass("n")} arrow-up`}
@@ -129,8 +131,10 @@ export default class App extends React.Component<{}, MyState> {
             ) : null}
           </div>
         </div>
-        <Branch key={"sw"} trains={grouped.sw} size="normal" />
-        <Branch key={"se"} trains={grouped.se} size="normal" />
+        <div className="row">
+          <Branch key={"sw"} trains={grouped.sw} size="normal" />
+          <Branch key={"se"} trains={grouped.se} size="normal" />
+        </div>
       </div>
     );
   }

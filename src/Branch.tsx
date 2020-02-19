@@ -10,8 +10,6 @@ export default function Branch(props: {
   position?: string;
   size: string;
 }) {
-  const fontSize = 0.3;
-
   const trainText = (train: Actual) => {
     if (!train.actual) return undefined;
     const secondsAgo = differenceInSeconds(
@@ -19,52 +17,24 @@ export default function Branch(props: {
       parseISO(train.actual.TimeAtLocationWithSeconds)
     );
     const className = secondsAgo < 30 ? "new" : "old";
-    return [
-      <tspan
-        className={className}
-        x="0.05"
-        dy={fontSize * dy(props.trains.length)}
-        fill={color(train.actual)}
-        key={`${train.actual.AdvertisedTrainIdent}l1`}
-      >
-        {line1(train)}
-      </tspan>,
-      <tspan
-        className={className}
-        x="0.05"
-        dy={fontSize}
-        fill={color(train.actual)}
-        key={`${train.actual.AdvertisedTrainIdent}l2`}
-      >
-        {line2(train)}
-      </tspan>
-    ];
+    return (
+      <div>
+        <div
+          className={className}
+          style={{ color: color(train.actual) }}
+          key={`${train.actual.AdvertisedTrainIdent}l1`}
+        >
+          {line1(train)}
+        </div>
+        <div
+          className={className}
+          style={{ color: color(train.actual) }}
+          key={`${train.actual.AdvertisedTrainIdent}l2`}
+        >
+          {line2(train)}
+        </div>
+      </div>
+    );
   };
-  return (
-    <svg viewBox="0 0 4 4" className="branch">
-      <g className={`pos-${props.position}`}>
-        <rect className="branch" x="0" y="0" height="4" width="4" />
-        <text className="train" style={{ fontSize: fontSize }}>
-          {_.map(props.trains, trainText)}
-        </text>
-      </g>
-    </svg>
-  );
-}
-
-const dyValues = [
-  undefined,
-  6,
-  (4 * (4 - 1.2)) / 3,
-  undefined,
-  undefined,
-  1.5,
-  1.15,
-  0.85
-];
-
-function dy(l: number) {
-  const dyValue = dyValues[l];
-  if (dyValue) return dyValue;
-  return (4 * (4 - 1.2)) / (l + 1);
+  return <div className="branch">{_.map(props.trains, trainText)}</div>;
 }

@@ -22,6 +22,12 @@ polygon {
   stroke-width: 0.02;
 }
 
+.row {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-evenly;
+}
+
 .mid-row {
   display: flex;
   align-items: center;
@@ -102,20 +108,20 @@ g.pos-c {
   transform: translate(-2px, -2px);
 }
 
-text.train {
+div.branch {
   font-family: Arial Narrow, Arial, sans-serif;
+  font-size: 12px;
 }
 
-tspan.new {
+div.new {
   font-weight: bold;
 }
 
-rect.branch {
-  fill: #222;
-  stroke: red;
-  stroke-width: 0.02;
-}
-
-svg.branch {
+div.branch {
   width: 50%;
+  min-height: 160px;
+  background: #222222;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
