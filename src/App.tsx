@@ -120,6 +120,8 @@ export default class App extends React.Component<{}, MyState> {
                   if (this.state.eventSource) {
                     this.state.eventSource.close();
                     this.setState({
+                      loaded: "",
+                      clicked: "",
                       eventSource: null,
                       eventSourceStarted: null
                     });
