@@ -18,7 +18,7 @@ export default function Branch(props: {
     );
     const className = secondsAgo < 30 ? "new" : "old";
     return (
-      <div>
+      <div className="train">
         <div
           className={className}
           style={{ color: color(train.actual) }}
