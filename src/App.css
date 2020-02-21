@@ -80,3 +80,7 @@ div.branch {
 div.new {
   font-weight: bold;
 }
+
+div.train {
+  margin-left: 3px;
+}
