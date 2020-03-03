@@ -82,6 +82,17 @@ export default class App extends React.Component<{}, MyState> {
         <span onClick={this.getCurrent(this.state.clicked)}>getCurrent</span>
         <table>
           <tbody>
+            <tr>
+              <th>location</th>
+              {_.map(colKeys, colKey => {
+                return (
+                  <React.Fragment key={colKey}>
+                    <th />
+                    <th>{colKey.substr(8)}</th>
+                  </React.Fragment>
+                );
+              })}
+            </tr>
             {_.map(rowKeys, rowKey => {
               const strings = rowKey.split(":");
               return (
