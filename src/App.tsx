@@ -28,14 +28,13 @@ export default class App extends React.Component<{}, MyState> {
     }
   }
 
-  getCurrent(direction: string) {
+  getCurrent(trainId: string) {
     return () => {
       this.setState({
-        clicked: direction,
         loaded: ""
       });
 
-      fetch(`/.netlify/functions/announcements?direction=${direction}`)
+      fetch(`/.netlify/functions/announcements?trainId=${trainId}`)
         .then(response => response.json())
         .then(json => {
           const response = json.TrainAnnouncement;
@@ -50,7 +49,6 @@ export default class App extends React.Component<{}, MyState> {
 
           this.setState({
             response,
-            loaded: direction,
             clicked: ""
           });
         });
@@ -74,7 +72,14 @@ export default class App extends React.Component<{}, MyState> {
 
     return (
       <div>
-        <div onClick={this.getCurrent("n")}>getCurrent</div>
+        <input
+          type="text"
+          value={this.state.clicked}
+          onChange={(event: any) => {
+            this.setState({ clicked: event.target.value });
+          }}
+        />
+        <span onClick={this.getCurrent(this.state.clicked)}>getCurrent</span>
         <table>
           <tbody>
             {_.map(rowKeys, rowKey => {

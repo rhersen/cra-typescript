@@ -35,13 +35,13 @@ exports.handler = async function({ queryStringParameters }) {
   }
 };
 
-function getBody({ direction }) {
+function getBody({ trainId }) {
   return `
 <REQUEST>
   <LOGIN authenticationkey='${process.env.TRAFIKVERKET_API_KEY}' />
     <QUERY sseurl='true' objecttype='TrainAnnouncement' orderby='TimeAtLocationWithSeconds' schemaversion='1.6'>
       <FILTER>
-        <EQ name='AdvertisedTrainIdent' value='10465'/>
+        <EQ name='AdvertisedTrainIdent' value='${trainId}'/>
       </FILTER>
       <INCLUDE>ActivityType</INCLUDE>
       <INCLUDE>AdvertisedTrainIdent</INCLUDE>
