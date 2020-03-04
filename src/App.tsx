@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React from "react";
+import { addDays, endOfDay, formatISO } from "date-fns";
 import "./App.css";
 import TrainAnnouncement from "./TrainAnnouncement";
 import locations from "./locations";
@@ -8,16 +9,12 @@ let eventSource: EventSource | null = null;
 
 type MyState = {
   response: TrainAnnouncement[];
-  msg: string;
-  loaded: string;
   clicked: string;
 };
 
 export default class App extends React.Component<{}, MyState> {
   state: MyState = {
     response: [],
-    msg: "",
-    loaded: "",
     clicked: ""
   };
 
@@ -32,11 +29,11 @@ export default class App extends React.Component<{}, MyState> {
     return (ev: any) => {
       if (ev.key && ev.key !== "Enter") return;
 
-      this.setState({
-        loaded: ""
-      });
+      const until = formatISO(endOfDay(addDays(new Date(), 1))).substr(0, 19);
 
-      fetch(`/.netlify/functions/announcements?trainId=${trainId}`)
+      fetch(
+        `/.netlify/functions/announcements?trainId=${trainId}&until=${until}`
+      )
         .then(response => response.json())
         .then(json => {
           const response = json.TrainAnnouncement;

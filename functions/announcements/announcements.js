@@ -35,13 +35,16 @@ exports.handler = async function({ queryStringParameters }) {
   }
 };
 
-function getBody({ trainId }) {
+function getBody({ trainId, until }) {
   return `
 <REQUEST>
   <LOGIN authenticationkey='${process.env.TRAFIKVERKET_API_KEY}' />
     <QUERY sseurl='true' objecttype='TrainAnnouncement' orderby='TimeAtLocationWithSeconds' schemaversion='1.6'>
       <FILTER>
-        <EQ name='AdvertisedTrainIdent' value='${trainId}'/>
+        <AND>
+          <EQ name='AdvertisedTrainIdent' value='${trainId}'/>
+          <LT name='AdvertisedTimeAtLocation' value='${until}'/>
+        </AND>
       </FILTER>
       <INCLUDE>ActivityType</INCLUDE>
       <INCLUDE>AdvertisedTrainIdent</INCLUDE>
