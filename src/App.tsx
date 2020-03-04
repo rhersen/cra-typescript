@@ -82,7 +82,7 @@ export default class App extends React.Component<{}, MyState> {
           }}
           onKeyPress={this.getCurrent(this.state.clicked)}
         />
-        <span onClick={this.getCurrent(this.state.clicked)}>getCurrent</span>
+        <span onClick={this.getCurrent(this.state.clicked)}>submit</span>
         <table>
           <tbody>
             <tr>
