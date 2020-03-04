@@ -29,7 +29,9 @@ export default class App extends React.Component<{}, MyState> {
   }
 
   getCurrent(trainId: string) {
-    return () => {
+    return (ev: any) => {
+      if (ev.key && ev.key !== "Enter") return;
+
       this.setState({
         loaded: ""
       });
@@ -78,6 +80,7 @@ export default class App extends React.Component<{}, MyState> {
           onChange={(event: any) => {
             this.setState({ clicked: event.target.value });
           }}
+          onKeyPress={this.getCurrent(this.state.clicked)}
         />
         <span onClick={this.getCurrent(this.state.clicked)}>getCurrent</span>
         <table>
