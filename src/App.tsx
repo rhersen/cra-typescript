@@ -45,7 +45,12 @@ export default class App extends React.Component<{}, MyState> {
             if (eventSource) eventSource.close();
             eventSource = new EventSource(json.INFO.SSEURL);
             eventSource.onmessage = event => {
-              console.log(event);
+              const parsed = JSON.parse(event.data);
+              this.setState(({ response }: MyState) => ({
+                response: response.concat(
+                  parsed.RESPONSE.RESULT[0].TrainAnnouncement
+                )
+              }));
             };
           }
 
