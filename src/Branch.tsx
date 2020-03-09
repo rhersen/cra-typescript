@@ -19,19 +19,11 @@ export default function Branch(props: {
     const className = secondsAgo < 30 ? "new" : "old";
     const color = getColor(train.actual);
     return (
-      <div className="train">
-        <div
-          className={className}
-          style={{ color }}
-          key={`${train.actual.AdvertisedTrainIdent}l1`}
-        >
+      <div className="train" key={train.actual.AdvertisedTrainIdent}>
+        <div className={className} style={{ color }}>
           {line1(train)}
         </div>
-        <div
-          className={className}
-          style={{ color }}
-          key={`${train.actual.AdvertisedTrainIdent}l2`}
-        >
+        <div className={className} style={{ color }}>
           {line2(train)}
         </div>
       </div>
