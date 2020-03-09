@@ -4,6 +4,7 @@ import TrainAnnouncement from "./TrainAnnouncement";
 
 export type Actual = {
   latest: TrainAnnouncement | undefined;
+  latestDeparture: TrainAnnouncement | undefined;
 };
 
 export default function currentTrains(
@@ -15,31 +16,45 @@ export default function currentTrains(
   const sorted: Actual[] = sortTrains(noUndefineds, direction(announcement));
   return _.filter(_.reject(sorted, hasArrivedAtDestination), isPendel);
 
-  function selectLatest(
+  function addToLocation(
+    trainAnnouncements: TrainAnnouncement[],
+    latest: TrainAnnouncement
+  ) {
+    const found = _.find(trainAnnouncements, "ProductInformation");
+    return found
+      ? {
+          ...latest,
+          ProductInformation: found.ProductInformation,
+          ToLocation: found.ToLocation
+        }
+      : latest;
+  }
+
+  function getTrainAnnouncement(
+    latest: TrainAnnouncement | undefined,
     trainAnnouncements: TrainAnnouncement[]
-  ): Actual {
-    const latest: TrainAnnouncement | undefined = _.maxBy(
-      trainAnnouncements,
-      (trainAnnouncement: TrainAnnouncement) =>
-        trainAnnouncement.TimeAtLocationWithSeconds +
-        trainAnnouncement.ActivityType
-    );
+  ) {
+    return !latest
+      ? undefined
+      : !latest.ToLocation
+      ? addToLocation(trainAnnouncements, latest)
+      : latest;
+  }
 
-    if (!latest) return { latest: undefined };
-
-    if (!latest.ProductInformation) {
-      const found = _.find(trainAnnouncements, "ProductInformation");
-      if (found)
-        return {
-          latest: {
-            ...latest,
-            ProductInformation: found.ProductInformation,
-            ToLocation: found.ToLocation
-          }
-        };
-    }
-
-    return { latest: latest };
+  function selectLatest(trainAnnouncements: TrainAnnouncement[]): Actual {
+    return {
+      latest: getTrainAnnouncement(
+        _.maxBy(trainAnnouncements, "TimeAtLocationWithSeconds"),
+        trainAnnouncements
+      ),
+      latestDeparture: getTrainAnnouncement(
+        _.maxBy(
+          _.filter(trainAnnouncements, { ActivityType: "Avgang" }),
+          "TimeAtLocationWithSeconds"
+        ),
+        trainAnnouncements
+      )
+    };
   }
 
   function direction(announcements: TrainAnnouncement[]) {

@@ -17,7 +17,7 @@ export default function Branch(props: {
       parseISO(train.latest.TimeAtLocationWithSeconds)
     );
     const className = secondsAgo < 30 ? "new" : "old";
-    const color = getColor(train.latest);
+    const color = getColor(train.latestDeparture || train.latest);
     return (
       <div className="train" key={train.latest.AdvertisedTrainIdent}>
         <div className={className} style={{ color }}>
