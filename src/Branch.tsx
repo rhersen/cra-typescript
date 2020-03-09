@@ -11,15 +11,15 @@ export default function Branch(props: {
   size: string;
 }) {
   const trainText = (train: Actual) => {
-    if (!train.actual) return undefined;
+    if (!train.latest) return undefined;
     const secondsAgo = differenceInSeconds(
       new Date(),
-      parseISO(train.actual.TimeAtLocationWithSeconds)
+      parseISO(train.latest.TimeAtLocationWithSeconds)
     );
     const className = secondsAgo < 30 ? "new" : "old";
-    const color = getColor(train.actual);
+    const color = getColor(train.latest);
     return (
-      <div className="train" key={train.actual.AdvertisedTrainIdent}>
+      <div className="train" key={train.latest.AdvertisedTrainIdent}>
         <div className={className} style={{ color }}>
           {line1(train)}
         </div>

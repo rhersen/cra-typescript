@@ -2,8 +2,8 @@ import * as wgs from "./wgs";
 import { Actual } from "./currentTrains";
 
 export default function branchDivider(train: Actual): string {
-  if (!train.actual) return "";
-  const location = train.actual.LocationSignature;
+  if (!train.latest) return "";
+  const location = train.latest.LocationSignature;
   const north = wgs.north(location);
   if (!north) return "";
 

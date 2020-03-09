@@ -5,7 +5,7 @@ import { Actual } from "./currentTrains";
 import TrainAnnouncement from "./TrainAnnouncement";
 
 export function line1(train: Actual) {
-  const a = train.actual;
+  const a = train.latest;
 
   if (!a) return "Aktuell information saknas";
 
@@ -15,7 +15,7 @@ export function line1(train: Actual) {
 }
 
 export function line2(train: Actual) {
-  const a = train.actual;
+  const a = train.latest;
 
   if (!a) return "line2";
 

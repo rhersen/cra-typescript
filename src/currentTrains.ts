@@ -3,7 +3,7 @@ import * as wgs from "./wgs";
 import TrainAnnouncement from "./TrainAnnouncement";
 
 export type Actual = {
-  actual: TrainAnnouncement | undefined;
+  latest: TrainAnnouncement | undefined;
 };
 
 export default function currentTrains(
@@ -11,7 +11,7 @@ export default function currentTrains(
 ): Actual[] {
   const grouped = _.groupBy(announcement, "AdvertisedTrainIdent");
   const includingUndefineds: Actual[] = _.map(grouped, selectLatest);
-  const noUndefineds: Actual[] = _.filter(includingUndefineds, "actual");
+  const noUndefineds: Actual[] = _.filter(includingUndefineds, "latest");
   const sorted: Actual[] = sortTrains(noUndefineds, direction(announcement));
   return _.filter(_.reject(sorted, hasArrivedAtDestination), isPendel);
 
@@ -25,13 +25,13 @@ export default function currentTrains(
         trainAnnouncement.ActivityType
     );
 
-    if (!latest) return { actual: undefined };
+    if (!latest) return { latest: undefined };
 
     if (!latest.ProductInformation) {
       const found = _.find(trainAnnouncements, "ProductInformation");
       if (found)
         return {
-          actual: {
+          latest: {
             ...latest,
             ProductInformation: found.ProductInformation,
             ToLocation: found.ToLocation
@@ -39,7 +39,7 @@ export default function currentTrains(
         };
     }
 
-    return { actual: latest };
+    return { latest: latest };
   }
 
   function direction(announcements: TrainAnnouncement[]) {
@@ -49,20 +49,20 @@ export default function currentTrains(
     );
   }
 
-  function hasArrivedAtDestination({ actual }: Actual) {
-    if (!actual) return false;
-    if (actual.ActivityType !== "Ankomst") return false;
+  function hasArrivedAtDestination({ latest }: Actual) {
+    if (!latest) return false;
+    if (latest.ActivityType !== "Ankomst") return false;
     return (
-      _.map(actual.ToLocation, "LocationName").join() ===
-      actual.LocationSignature
+      _.map(latest.ToLocation, "LocationName").join() ===
+      latest.LocationSignature
     );
   }
 
   function isPendel(train: Actual): boolean {
-    if (!train.actual) return false;
+    if (!train.latest) return false;
     return (
-      train.actual.ProductInformation &&
-      train.actual.ProductInformation.length === 2
+      train.latest.ProductInformation &&
+      train.latest.ProductInformation.length === 2
     );
   }
 
@@ -70,9 +70,9 @@ export default function currentTrains(
     return _.orderBy(
       obj,
       [
-        a => north(a.actual ? a.actual.LocationSignature : ""),
-        "actual.ActivityType",
-        "actual.TimeAtLocation"
+        a => north(a.latest ? a.latest.LocationSignature : ""),
+        "latest.ActivityType",
+        "latest.TimeAtLocation"
       ],
       ["desc", dir ? "asc" : "desc", dir ? "desc" : "asc"]
     );
