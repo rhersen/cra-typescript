@@ -19,45 +19,45 @@ export default function currentTrains(
   function selectLatest(trainAnnouncements: TrainAnnouncement[]): Actual {
     return {
       latest: getTrainAnnouncement(
-          _.maxBy(trainAnnouncements, "TimeAtLocationWithSeconds"),
-          trainAnnouncements
+        _.maxBy(trainAnnouncements, "TimeAtLocationWithSeconds"),
+        trainAnnouncements
       ),
       latestDeparture: getTrainAnnouncement(
-          _.maxBy(
-              _.filter(trainAnnouncements, { ActivityType: "Avgang" }),
-              "TimeAtLocationWithSeconds"
-          ),
-          trainAnnouncements
+        _.maxBy(
+          _.filter(trainAnnouncements, { ActivityType: "Avgang" }),
+          "TimeAtLocationWithSeconds"
+        ),
+        trainAnnouncements
       )
     };
   }
 
   function getTrainAnnouncement(
-    latest: TrainAnnouncement | undefined,
+    trainAnnouncement: TrainAnnouncement | undefined,
     trainAnnouncements: TrainAnnouncement[]
-  ): TrainAnnouncement | undefined {
-    return !latest
+  ) {
+    return !trainAnnouncement
       ? undefined
-      : !latest.ToLocation
-      ? addToLocation(trainAnnouncements, latest)
-      : latest;
+      : !trainAnnouncement.ToLocation
+      ? addToLocation(trainAnnouncements, trainAnnouncement)
+      : trainAnnouncement;
   }
 
   function addToLocation(
-      trainAnnouncements: TrainAnnouncement[],
-      trainAnnouncement: TrainAnnouncement
+    trainAnnouncements: TrainAnnouncement[],
+    trainAnnouncement: TrainAnnouncement
   ): TrainAnnouncement | undefined {
     const found: TrainAnnouncement | undefined = _.find(
-        trainAnnouncements,
-        "ProductInformation"
+      trainAnnouncements,
+      "ProductInformation"
     );
     return found
-        ? {
+      ? {
           ...trainAnnouncement,
           ProductInformation: found.ProductInformation,
           ToLocation: found.ToLocation
         }
-        : trainAnnouncement;
+      : trainAnnouncement;
   }
 
   function direction(announcements: TrainAnnouncement[]): boolean {
