@@ -18,22 +18,25 @@ export default function currentTrains(
 
   function addToLocation(
     trainAnnouncements: TrainAnnouncement[],
-    latest: TrainAnnouncement
-  ) {
-    const found = _.find(trainAnnouncements, "ProductInformation");
+    trainAnnouncement: TrainAnnouncement
+  ): TrainAnnouncement | undefined {
+    const found: TrainAnnouncement | undefined = _.find(
+      trainAnnouncements,
+      "ProductInformation"
+    );
     return found
       ? {
-          ...latest,
+          ...trainAnnouncement,
           ProductInformation: found.ProductInformation,
           ToLocation: found.ToLocation
         }
-      : latest;
+      : trainAnnouncement;
   }
 
   function getTrainAnnouncement(
     latest: TrainAnnouncement | undefined,
     trainAnnouncements: TrainAnnouncement[]
-  ) {
+  ): TrainAnnouncement | undefined {
     return !latest
       ? undefined
       : !latest.ToLocation
@@ -57,14 +60,14 @@ export default function currentTrains(
     };
   }
 
-  function direction(announcements: TrainAnnouncement[]) {
+  function direction(announcements: TrainAnnouncement[]): boolean {
     return (
-      announcements.length &&
+      announcements.length > 0 &&
       /\d\d\d[13579]/.test(announcements[0].AdvertisedTrainIdent)
     );
   }
 
-  function hasArrivedAtDestination({ latest }: Actual) {
+  function hasArrivedAtDestination({ latest }: Actual): boolean {
     if (!latest) return false;
     if (latest.ActivityType !== "Ankomst") return false;
     return (
@@ -81,7 +84,7 @@ export default function currentTrains(
     );
   }
 
-  function sortTrains(obj: Actual[], dir: number | boolean): Actual[] {
+  function sortTrains(obj: Actual[], dir: boolean): Actual[] {
     return _.orderBy(
       obj,
       [
@@ -93,14 +96,14 @@ export default function currentTrains(
     );
   }
 
-  function north(location: string) {
+  function north(location: string): number {
     if (location === "Gdv") return between("Ngd", "Nyh");
     if (location === "Söc") return between("Söd", "Söu");
     if (location === "Gn") return between("Mö", "Ssä");
     return wgs.north(location);
   }
 
-  function between(loc1: string, loc2: string) {
+  function between(loc1: string, loc2: string): number {
     return 0.5 * wgs.north(loc1) + 0.5 * wgs.north(loc2);
   }
 }
