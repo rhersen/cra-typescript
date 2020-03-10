@@ -13,24 +13,23 @@ export default function currentTrains(
   const grouped = _.groupBy(announcement, "AdvertisedTrainIdent");
   const includingUndefineds: Actual[] = _.map(grouped, selectLatest);
   const noUndefineds: Actual[] = _.filter(includingUndefineds, "latest");
-  const sorted: Actual[] = sortTrains(noUndefineds, direction(announcement));
+  const sorted = sortTrains(noUndefineds, direction(announcement));
   return _.filter(_.reject(sorted, hasArrivedAtDestination), isPendel);
 
-  function addToLocation(
-    trainAnnouncements: TrainAnnouncement[],
-    trainAnnouncement: TrainAnnouncement
-  ): TrainAnnouncement | undefined {
-    const found: TrainAnnouncement | undefined = _.find(
-      trainAnnouncements,
-      "ProductInformation"
-    );
-    return found
-      ? {
-          ...trainAnnouncement,
-          ProductInformation: found.ProductInformation,
-          ToLocation: found.ToLocation
-        }
-      : trainAnnouncement;
+  function selectLatest(trainAnnouncements: TrainAnnouncement[]): Actual {
+    return {
+      latest: getTrainAnnouncement(
+          _.maxBy(trainAnnouncements, "TimeAtLocationWithSeconds"),
+          trainAnnouncements
+      ),
+      latestDeparture: getTrainAnnouncement(
+          _.maxBy(
+              _.filter(trainAnnouncements, { ActivityType: "Avgang" }),
+              "TimeAtLocationWithSeconds"
+          ),
+          trainAnnouncements
+      )
+    };
   }
 
   function getTrainAnnouncement(
@@ -44,20 +43,21 @@ export default function currentTrains(
       : latest;
   }
 
-  function selectLatest(trainAnnouncements: TrainAnnouncement[]): Actual {
-    return {
-      latest: getTrainAnnouncement(
-        _.maxBy(trainAnnouncements, "TimeAtLocationWithSeconds"),
-        trainAnnouncements
-      ),
-      latestDeparture: getTrainAnnouncement(
-        _.maxBy(
-          _.filter(trainAnnouncements, { ActivityType: "Avgang" }),
-          "TimeAtLocationWithSeconds"
-        ),
-        trainAnnouncements
-      )
-    };
+  function addToLocation(
+      trainAnnouncements: TrainAnnouncement[],
+      trainAnnouncement: TrainAnnouncement
+  ): TrainAnnouncement | undefined {
+    const found: TrainAnnouncement | undefined = _.find(
+        trainAnnouncements,
+        "ProductInformation"
+    );
+    return found
+        ? {
+          ...trainAnnouncement,
+          ProductInformation: found.ProductInformation,
+          ToLocation: found.ToLocation
+        }
+        : trainAnnouncement;
   }
 
   function direction(announcements: TrainAnnouncement[]): boolean {
