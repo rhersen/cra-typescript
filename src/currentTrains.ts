@@ -18,18 +18,18 @@ export default function currentTrains(
 
   function selectLatest(trainAnnouncements: TrainAnnouncement[]): Actual {
     return {
-      latest: getTrainAnnouncement(
-        _.maxBy(trainAnnouncements, "TimeAtLocationWithSeconds"),
-        trainAnnouncements
-      ),
-      latestDeparture: getTrainAnnouncement(
-        _.maxBy(
-          _.filter(trainAnnouncements, { ActivityType: "Avgang" }),
-          "TimeAtLocationWithSeconds"
-        ),
-        trainAnnouncements
+      latest: getLatest(trainAnnouncements),
+      latestDeparture: getLatest(
+        _.filter(trainAnnouncements, { ActivityType: "Avgang" })
       )
     };
+  }
+
+  function getLatest(trainAnnouncements: TrainAnnouncement[]): TrainAnnouncement | undefined {
+    return getTrainAnnouncement(
+        _.maxBy(trainAnnouncements, "TimeAtLocationWithSeconds"),
+        trainAnnouncements
+    );
   }
 
   function getTrainAnnouncement(
