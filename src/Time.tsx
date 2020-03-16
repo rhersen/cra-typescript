@@ -43,15 +43,16 @@ function formatTimes(s: TrainAnnouncement) {
   const a = f(s.AdvertisedTimeAtLocation);
   const e = f(s.EstimatedTimeAtLocation);
   const t = f(s.TimeAtLocation);
+  const w = f(s.TimeAtLocationWithSeconds);
 
-  if (a === t) return <b>{t}</b>;
+  if (a === t) return <b>{w}</b>;
 
   if (t) {
-    if (s.ActivityType === "Ankomst") return <b>{t}</b>;
+    if (s.ActivityType === "Ankomst") return <b>{w}</b>;
 
     return (
       <span>
-        <b>{t}</b>/{removeHours(a)}
+        <b>{w}</b>/{removeHours(a)}
       </span>
     );
   }
