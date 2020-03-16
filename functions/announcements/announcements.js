@@ -35,26 +35,30 @@ exports.handler = async function({ queryStringParameters }) {
   }
 };
 
-function getBody({ direction, since }) {
+function getBody({ direction, locations, since, until }) {
   return `
 <REQUEST>
   <LOGIN authenticationkey='${process.env.TRAFIKVERKET_API_KEY}' />
-    <QUERY sseurl='true' objecttype='TrainAnnouncement' orderby='TimeAtLocationWithSeconds' schemaversion='1.6'>
+    <QUERY sseurl='false' objecttype='TrainAnnouncement' orderby='TimeAtLocationWithSeconds' schemaversion='1.6'>
       <FILTER>
-         <IN name='LocationSignature' value='Äs,Åbe,Sst,Sci,Sod,Tmö,So,Kmy,Udl,Hel,Sol,Hgv,Nvk,R,Upv,Skby,Rs,Bra,Mr,Rön,Gau,Södy,Tu,Uts,Tul,Flb,Hu,Sta,Hfa,Ts,Kda,Vhe,Jbo,Hnd,Vga,Skg,Tåd,Fas,Hön,Huv,Sub,Duo,Spå,Bkb,Jkb,Khä' />
+         <AND>
+            <NE name='Canceled' value='true' />
         <LIKE name='AdvertisedTrainIdent' value='/[${
           direction === "n" ? "02468" : "13579"
         }]$/' />
-        <GT name='TimeAtLocation' value='${since}' />
+            <IN name='LocationSignature' value='${locations}' />
+            <OR>
+             <AND>
+              <GT name='AdvertisedTimeAtLocation' value='${since}' />
+              <LT name='AdvertisedTimeAtLocation' value='${until}' />
+             </AND>
+             <AND>
+              <GT name='EstimatedTimeAtLocation' value='${since}' />
+              <LT name='EstimatedTimeAtLocation' value='${until}' />
+             </AND>
+            </OR>
+         </AND>
       </FILTER>
-      <INCLUDE>ActivityType</INCLUDE>
-      <INCLUDE>AdvertisedTrainIdent</INCLUDE>
-      <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
-      <INCLUDE>LocationSignature</INCLUDE>
-      <INCLUDE>ProductInformation</INCLUDE>
-      <INCLUDE>TimeAtLocation</INCLUDE>
-      <INCLUDE>TimeAtLocationWithSeconds</INCLUDE>
-      <INCLUDE>ToLocation</INCLUDE>
      </QUERY>
 </REQUEST>`;
 }
