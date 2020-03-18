@@ -40,35 +40,9 @@ export default Time;
 function formatTimes(s: TrainAnnouncement) {
   if (!s) return "×";
 
-  const a = f(s.AdvertisedTimeAtLocation);
-  const e = f(s.EstimatedTimeAtLocation);
-  const t = f(s.TimeAtLocation);
-  const w = f(s.TimeAtLocationWithSeconds);
-
-  if (a === t) return <b>{w}</b>;
-
-  if (t) {
-    if (s.ActivityType === "Ankomst") return <b>{w}</b>;
-
-    return (
-      <span>
-        <b>{w}</b>/{removeHours(a)}
-      </span>
-    );
-  }
-
-  if (e)
-    return (
-      <span>
-        <i>{e}</i>/{removeHours(a)}
-      </span>
-    );
-
-  return a;
-
-  function removeHours(time: string) {
-    return time.substr(time.indexOf(":") + 1);
-  }
+  if (s.TimeAtLocation) return <b>{f(s.TimeAtLocationWithSeconds)}</b>;
+  if (s.EstimatedTimeAtLocation) return <i>{f(s.EstimatedTimeAtLocation)}</i>;
+  return f(s.AdvertisedTimeAtLocation);
 }
 
 function f(s: string) {
