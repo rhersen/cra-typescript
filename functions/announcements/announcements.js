@@ -39,7 +39,7 @@ function getBody({ direction, locations, since, until }) {
   return `
 <REQUEST>
   <LOGIN authenticationkey='${process.env.TRAFIKVERKET_API_KEY}' />
-    <QUERY sseurl='false' objecttype='TrainAnnouncement' orderby='TimeAtLocationWithSeconds' schemaversion='1.6'>
+    <QUERY sseurl='true' objecttype='TrainAnnouncement' orderby='TimeAtLocationWithSeconds' schemaversion='1.6'>
       <FILTER>
          <AND>
             <NE name='Canceled' value='true' />
