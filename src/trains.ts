@@ -28,7 +28,7 @@ export default (announcements: TrainAnnouncement[], now: Date) => {
       announcement =>
         _.some(
           announcement.ProductInformation,
-          (prod: Description): boolean => prod.Description === "Pendeltåg"
+          (prod: Description): boolean => prod.Description === "SL Pendeltåg"
         )
     );
   }
