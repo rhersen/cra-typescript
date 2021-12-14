@@ -55,7 +55,7 @@ function getLocationBody(location) {
                <GT name='AdvertisedTimeAtLocation' value='$dateadd(-0:15:00)' />
                <GT name='EstimatedTimeAtLocation' value='$dateadd(-0:15:00)' />
             </OR>
-            <LT name='AdvertisedTimeAtLocation' value='$dateadd(1:00:00)' />
+            <LT name='AdvertisedTimeAtLocation' value='$dateadd(2:00:00)' />
          </AND>
       </FILTER>
      </QUERY>
