@@ -104,7 +104,9 @@ export default class App extends React.Component<{}, MyState> {
                 <tr key={rowKey}>
                   <td>
                     {strings[0] === "Avgang" ? "" : strings[0]}{" "}
-                    {locations(strings[1]).AdvertisedShortLocationName}
+                    {locations(strings[1])
+                      ? locations(strings[1]).AdvertisedShortLocationName
+                      : strings[1]}
                   </td>
                   {_.map(colKeys, colKey => {
                     const cell = cells[rowKey + colKey];
