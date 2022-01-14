@@ -1,5 +1,4 @@
 import TrainAnnouncement from "./TrainAnnouncement";
-import locations from "./locations";
 
 export default interface Response {
   announcements: Array<TrainAnnouncement>;
@@ -16,11 +15,14 @@ export function stationCount(response: Response): number {
   return Object.keys(signatures).length;
 }
 
-export function stationName(response: Response) {
+export function stationName(
+  response: Response,
+  locations: { [key: string]: string }
+) {
   return (
     response.announcements &&
     response.announcements.length > 0 &&
-    locations(response.announcements[0].LocationSignature)
+    locations[response.announcements[0].LocationSignature]
   );
 }
 

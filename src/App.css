@@ -2,6 +2,10 @@ h1 {
   margin: 0.25em;
 }
 
+button {
+  margin: 8px 4px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

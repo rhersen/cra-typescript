@@ -12,9 +12,11 @@ import { DelayCell } from "./DelayCell";
 
 export default function StationRow({
   announcement,
+  locations,
   onClick,
   now
 }: {
+  locations: { [key: string]: string };
   onClick: () => void;
   announcement: TrainAnnouncement;
   now: Date;
@@ -24,7 +26,7 @@ export default function StationRow({
       <TrainIdCell announcement={announcement} />
       <TrackCell announcement={announcement} />
       <ShortCell announcement={announcement} />
-      <DestinationCell announcement={announcement} />
+      <DestinationCell announcement={announcement} locations={locations} />
       <AdvertisedTimeCell announcement={announcement} />
       <TimeCell announcement={announcement} />
       <DelayCell announcement={announcement} />

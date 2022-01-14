@@ -13,6 +13,7 @@ import { DelayCell } from "./DelayCell";
 export default function TrainRow(props: {
   onClick: () => void;
   announcement: TrainAnnouncement;
+  locations: { [key: string]: string };
   now: Date;
 }) {
   return (
@@ -20,7 +21,10 @@ export default function TrainRow(props: {
       <TrainIdCell announcement={props.announcement} />
       <TrackCell announcement={props.announcement} />
       <ShortCell announcement={props.announcement} />
-      <LocationCell announcement={props.announcement} />
+      <LocationCell
+        announcement={props.announcement}
+        locations={props.locations}
+      />
       <AdvertisedTimeCell announcement={props.announcement} />
       <TimeCell announcement={props.announcement} />
       <DelayCell announcement={props.announcement} />

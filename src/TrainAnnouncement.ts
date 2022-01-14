@@ -1,5 +1,4 @@
 import { addSeconds, differenceInSeconds, format, parseISO } from "date-fns";
-import locations from "./locations";
 
 export default interface TrainAnnouncement {
   ActivityId: string;
@@ -66,11 +65,14 @@ export function countdown(announcement: TrainAnnouncement, now: Date) {
   return `${seconds}s`;
 }
 
-export function fromLocation(announcement: TrainAnnouncement) {
+export function fromLocation(
+  announcement: TrainAnnouncement,
+  locations: { [key: string]: string }
+) {
   return (
     announcement.FromLocation &&
-    announcement.FromLocation.map(location =>
-      locations(location.LocationName)
+    announcement.FromLocation.map(
+      location => locations[location.LocationName]
     ).join()
   );
 }

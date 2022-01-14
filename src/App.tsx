@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import locations from "./locations";
+
 import Table from "./Table";
 import Response from "./Response";
 import { SearchParams } from "./SearchParams";
@@ -11,6 +11,7 @@ let intervalId: NodeJS.Timeout;
 let eventSource: EventSource | null = null;
 
 type MyState = {
+  locations: { [key: string]: string };
   response: Response;
   msg: string;
   now: Date;
@@ -18,13 +19,16 @@ type MyState = {
 
 export default class App extends React.Component<{}, MyState> {
   state: MyState = {
+    locations: {},
     response: { announcements: [] },
     msg: "",
     now: new Date()
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     intervalId = setInterval(() => this.setState({ now: new Date() }), 990);
+    const response = await fetch("/.netlify/functions/locations");
+    this.setState({ locations: await response.json() });
   }
 
   componentWillUnmount() {
@@ -61,13 +65,13 @@ export default class App extends React.Component<{}, MyState> {
 
     function queryString(params: SearchParams) {
       return params.location
-          ? `?location=${params.location}`
-          : `?train=${params.trainId}`;
+        ? `?location=${params.location}`
+        : `?train=${params.trainId}`;
     }
 
     const since = formatISO(sub(new Date(), { hours: 2 })).substr(0, 19);
     const until = formatISO(add(new Date(), { hours: 2 })).substr(0, 19);
-    const { msg, response, now } = this.state;
+    const { msg, response, now, locations } = this.state;
 
     return (
       <div>
@@ -84,6 +88,7 @@ export default class App extends React.Component<{}, MyState> {
         {this.button("Tu")}
         <div>{msg}</div>
         <Table
+          locations={locations}
           response={response}
           now={now}
           fetch={async (params: SearchParams) => {
@@ -137,7 +142,7 @@ export default class App extends React.Component<{}, MyState> {
             });
         }}
       >
-        {locations(location)}
+        {this.state.locations[location]}
       </button>
     );
   }
